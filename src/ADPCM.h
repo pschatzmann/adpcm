@@ -1,6 +1,6 @@
 #pragma once
-#include "ffmpeg-adpcm/adpcm_public.h"
-#include "ffmpeg-adpcm/compat_public.h"
+#include "adpcm-ffmpeg/adpcm_public.h"
+#include "adpcm-ffmpeg/compat_public.h"
 #include "stddef.h"
 
 namespace adpcm_ffmpeg {

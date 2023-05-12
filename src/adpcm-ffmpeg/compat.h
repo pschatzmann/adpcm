@@ -148,9 +148,9 @@ static av_always_inline av_const int av_clip(int a, int amin, int amax) {
     return a;
 }
 
-void *av_malloc(size_t size) { return malloc(size); }
+static void *av_malloc(size_t size) { return malloc(size); }
 
-void av_free(void *ptr) {
+static void av_free(void *ptr) {
 #if HAVE_ALIGNED_MALLOC
   _aligned_free(ptr);
 #else
@@ -158,7 +158,7 @@ void av_free(void *ptr) {
 #endif
 }
 
-void av_freep(void *arg) {
+static void av_freep(void *arg) {
   void *val;
 
   memcpy(&val, arg, sizeof(val));
@@ -166,7 +166,7 @@ void av_freep(void *arg) {
   av_free(val);
 }
 
-void *av_mallocz(size_t size) {
+static void *av_mallocz(size_t size) {
   void *ptr = av_malloc(size);
   if (ptr) memset(ptr, 0, size);
   return ptr;
@@ -184,13 +184,13 @@ static int size_mult(size_t a, size_t b, size_t *r) {
   return 0;
 }
 
-void *av_calloc(size_t nmemb, size_t size) {
+static void *av_calloc(size_t nmemb, size_t size) {
   size_t result;
   if (size_mult(nmemb, size, &result) < 0) return NULL;
   return av_mallocz(result);
 }
 
-void *av_malloc_array(size_t nmemb, size_t size) {
+static void *av_malloc_array(size_t nmemb, size_t size) {
   size_t result;
   if (size_mult(nmemb, size, &result) < 0) return NULL;
   return av_malloc(result);
@@ -298,11 +298,11 @@ void avpriv_request_sample(void *avc, const char *msg, ...);
 
 #define av_log(A, B, ...) printf(__VA_ARGS__);
 
-int av_get_exact_bits_per_sample(enum AVCodecID codec_id) {
+static int av_get_exact_bits_per_sample(enum AVCodecID codec_id) {
   switch (codec_id) {}
 }
 
-int av_get_bits_per_sample(enum AVCodecID codec_id) {
+static int av_get_bits_per_sample(enum AVCodecID codec_id) {
   switch (codec_id) {
     case AV_CODEC_ID_ADPCM_SBPRO_2:
       return 2;

@@ -12,7 +12,7 @@
 
 
 /**
- * This structure stores compressed data. It is typically exported by demuxers
+ * @brief This structure stores compressed data. It is typically exported by demuxers
  * and then passed as input to decoders, or received as output from encoders and
  * then passed to muxers.
  *

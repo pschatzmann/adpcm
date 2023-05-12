@@ -30,7 +30,7 @@
 #include <stddef.h>
 
 #include "compat.h"
-#include "libavutil/intreadwrite.h"
+#include "intreadwrite.h"
 //#include "libavutil/avassert.h"
 //#include "libavutil/common.h"
 
