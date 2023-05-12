@@ -61,7 +61,3 @@ Supported codecs variants:
   - IMA_ACORN
   - XMD
 
-
-
-
-# adpcm

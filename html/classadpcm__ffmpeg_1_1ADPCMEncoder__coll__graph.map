@@ -1,0 +1,7 @@
+<map id="adpcm_ffmpeg::ADPCMEncoder" name="adpcm_ffmpeg::ADPCMEncoder">
+<area shape="rect" id="node1" title="ADPCM Encoder." alt="" coords="66,184,293,211"/>
+<area shape="rect" id="node2" href="$structAVPacket.html" title=" " alt="" coords="5,95,87,121"/>
+<area shape="rect" id="node3" href="$structCodec.html" title=" " alt="" coords="125,5,188,32"/>
+<area shape="rect" id="node5" href="$structAVCodecContext.html" title=" " alt="" coords="202,95,333,121"/>
+<area shape="rect" id="node4" href="$structAVFrame.html" title=" " alt="" coords="357,95,437,121"/>
+</map>
