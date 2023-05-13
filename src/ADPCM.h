@@ -6,15 +6,30 @@
 namespace adpcm_ffmpeg {
 
 /**
- * @brief ADPCM Encoder
+ * @brief Common ADPCM Functionality
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
-class ADPCMEncoder {
+
+class ADPCMCodec {
+ public:
+  int frameSize() { return avctx.frame_size; }
+  AVCodecContext &ctx() { return avctx; }
+
+ protected:
+  AVCodecContext avctx;
+};
+
+/**
+ * @brief ADPCM Encoder
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class ADPCMEncoder : public ADPCMCodec {
  public:
   ADPCMEncoder(AVCodecID id, int blockSize = 256) {
     this->id = id;
-    codec.id = id;
     avctx.codec_id = id;
-    avctx.codec = &codec;
     avctx.priv_data = (uint8_t *)&enc_ctx;
     enc_ctx.block_size = blockSize;
   }
@@ -25,8 +40,6 @@ class ADPCMEncoder {
     avctx.sample_fmt = AV_SAMPLE_FMT_S16;
     return adpcm_encode_init(&avctx) == 0;
   }
-
-  int frameSize() { return avctx.frame_size; }
 
   void end() { adpcm_encode_close(&avctx); }
 
@@ -44,29 +57,25 @@ class ADPCMEncoder {
     return result;
   }
 
-  AVCodecContext &ctx() { return avctx; }
-
  protected:
   AVCodecID id;
-  AVCodecContext avctx;
   AVPacket result;
   AVFrame frame;
-  Codec codec;
   ADPCMEncodeContext enc_ctx;
   std::vector<uint8_t> av_packet_data;
 };
 
 /**
  * @brief ADPCM Decoder
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 
-class ADPCMDecoder {
+class ADPCMDecoder : public ADPCMCodec {
  public:
   ADPCMDecoder(AVCodecID id) {
     this->id = id;
-    codec.id = id;
     avctx.codec_id = id;
-    avctx.codec = &codec;
     avctx.bits_per_coded_sample = 4;
     avctx.priv_data = (uint8_t *)&enc_ctx;
     enc_ctx.block_size = 256;
@@ -92,8 +101,6 @@ class ADPCMDecoder {
     return adpcm_decode_init(&avctx) == 0;
   }
 
-  int frameSize() { return avctx.frame_size; }
-
   void end() { adpcm_flush(&avctx); }
 
   AVFrame &decode(int8_t *data, size_t size) {
@@ -117,14 +124,11 @@ class ADPCMDecoder {
     return result;
   }
 
-  AVCodecContext &ctx() { return avctx; }
 
  protected:
   AVCodecID id;
-  AVCodecContext avctx;
   AVPacket packet;
   AVFrame result;
-  Codec codec;
   ADPCMEncodeContext enc_ctx;
   std::vector<int16_t> frame_data;
   std::vector<int16_t> frame_extra_data1;

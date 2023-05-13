@@ -69,7 +69,7 @@
      * AMV's block size has to match that of the corresponding video
      * stream. Relax the POT requirement.
      */
-    if (avctx->codec->id != AV_CODEC_ID_ADPCM_IMA_AMV &&
+    if (avctx->codec_id != AV_CODEC_ID_ADPCM_IMA_AMV &&
         (s->block_size & (s->block_size - 1))) {
         av_log(avctx, AV_LOG_ERROR, "block size must be power of 2\n");
         return AVERROR(EINVAL);
@@ -83,10 +83,10 @@
             return AVERROR(EINVAL);
         }
 
-        if (avctx->codec->id == AV_CODEC_ID_ADPCM_IMA_SSI ||
-            avctx->codec->id == AV_CODEC_ID_ADPCM_IMA_APM ||
-            avctx->codec->id == AV_CODEC_ID_ADPCM_ARGO    ||
-            avctx->codec->id == AV_CODEC_ID_ADPCM_IMA_WS) {
+        if (avctx->codec_id == AV_CODEC_ID_ADPCM_IMA_SSI ||
+            avctx->codec_id == AV_CODEC_ID_ADPCM_IMA_APM ||
+            avctx->codec_id == AV_CODEC_ID_ADPCM_ARGO    ||
+            avctx->codec_id == AV_CODEC_ID_ADPCM_IMA_WS) {
             /*
              * The current trellis implementation doesn't work for extended
              * runs of samples without periodic resets. Disallow it.
@@ -104,9 +104,9 @@
             return AVERROR(ENOMEM);
     }
 
-    avctx->bits_per_coded_sample = av_get_bits_per_sample(avctx->codec->id);
+    avctx->bits_per_coded_sample = av_get_bits_per_sample(avctx->codec_id);
 
-    switch (avctx->codec->id) {
+    switch (avctx->codec_id) {
     CASE(ADPCM_IMA_WAV,
         /* each 16 bits sample gives one nibble
            and we have 4 bytes per channel overhead */
@@ -336,7 +336,7 @@ static void adpcm_compress_trellis(AVCodecContext *avctx,
     //FIXME 6% faster if frontier is a compile-time constant
     ADPCMEncodeContext *s = avctx->priv_data;
     const int frontier = 1 << avctx->trellis;
-    const int version  = avctx->codec->id;
+    const int version  = avctx->codec_id;
     TrellisPath *paths       = s->paths, *p;
     TrellisNode *node_buf    = s->node_buf;
     TrellisNode **nodep_buf  = s->nodep_buf;
@@ -605,7 +605,7 @@ int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
         return ret;
     dst = avpkt->data;
 
-    switch(avctx->codec->id) {
+    switch(avctx->codec_id) {
 
 
     CASE(ADPCM_IMA_WAV,

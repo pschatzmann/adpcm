@@ -266,7 +266,7 @@ int adpcm_decode_init(AVCodecContext * avctx)
 
     //adpcm_flush(avctx);
 
-    switch(avctx->codec->id) {
+    switch(avctx->codec_id) {
     case AV_CODEC_ID_ADPCM_IMA_AMV:
         max_channels = 1;
         break;
@@ -308,7 +308,7 @@ int adpcm_decode_init(AVCodecContext * avctx)
         return AVERROR(EINVAL);
     }
 
-    switch(avctx->codec->id) {
+    switch(avctx->codec_id) {
     case AV_CODEC_ID_ADPCM_IMA_WAV:
         if (avctx->bits_per_coded_sample < 2 || avctx->bits_per_coded_sample > 5)
             return AVERROR_INVALIDDATA;
@@ -326,7 +326,7 @@ int adpcm_decode_init(AVCodecContext * avctx)
         break;
     }
 
-    switch (avctx->codec->id) {
+    switch (avctx->codec_id) {
     case AV_CODEC_ID_ADPCM_AICA:
     case AV_CODEC_ID_ADPCM_IMA_CUNNING:
     case AV_CODEC_ID_ADPCM_IMA_DAT4:
@@ -869,7 +869,7 @@ static int get_nb_samples(AVCodecContext *avctx, GetByteContext *gb,
     if(ch <= 0)
         return 0;
 
-    switch (avctx->codec->id) {
+    switch (avctx->codec_id) {
     /* constant, only check buf_size */
     case AV_CODEC_ID_ADPCM_EA_XAS:
         if (buf_size < 76 * ch)
@@ -902,7 +902,7 @@ static int get_nb_samples(AVCodecContext *avctx, GetByteContext *gb,
 
     /* simple 4-bit adpcm, with header */
     header_size = 0;
-    switch (avctx->codec->id) {
+    switch (avctx->codec_id) {
         case AV_CODEC_ID_ADPCM_4XM:
         case AV_CODEC_ID_ADPCM_AGM:
         case AV_CODEC_ID_ADPCM_IMA_ACORN:
@@ -915,7 +915,7 @@ static int get_nb_samples(AVCodecContext *avctx, GetByteContext *gb,
         return (buf_size - header_size) * 2 / ch;
 
     /* more complex formats */
-    switch (avctx->codec->id) {
+    switch (avctx->codec_id) {
     case AV_CODEC_ID_ADPCM_IMA_AMV:
         bytestream2_skip(gb, 4);
         has_coded_samples  = 1;
@@ -943,7 +943,7 @@ static int get_nb_samples(AVCodecContext *avctx, GetByteContext *gb,
         /* maximum number of samples */
         /* has internal offsets and a per-frame switch to signal raw 16-bit */
         has_coded_samples = 1;
-        switch (avctx->codec->id) {
+        switch (avctx->codec_id) {
         case AV_CODEC_ID_ADPCM_EA_R1:
             header_size    = 4 + 9 * ch;
             *coded_samples = bytestream2_get_le32(gb);
@@ -1003,7 +1003,7 @@ static int get_nb_samples(AVCodecContext *avctx, GetByteContext *gb,
     case AV_CODEC_ID_ADPCM_SBPRO_4:
     {
         int samples_per_byte;
-        switch (avctx->codec->id) {
+        switch (avctx->codec_id) {
         case AV_CODEC_ID_ADPCM_SBPRO_2: samples_per_byte = 4; break;
         case AV_CODEC_ID_ADPCM_SBPRO_3: samples_per_byte = 3; break;
         case AV_CODEC_ID_ADPCM_SBPRO_4: samples_per_byte = 2; break;
@@ -1038,7 +1038,7 @@ static int get_nb_samples(AVCodecContext *avctx, GetByteContext *gb,
         }
         has_coded_samples = 1;
         bytestream2_skip(gb, 4); // channel size
-        *coded_samples  = (avctx->codec->id == AV_CODEC_ID_ADPCM_THP_LE) ?
+        *coded_samples  = (avctx->codec_id == AV_CODEC_ID_ADPCM_THP_LE) ?
                           bytestream2_get_le32(gb) :
                           bytestream2_get_be32(gb);
         buf_size       -= 8 + 36 * ch;
@@ -1113,7 +1113,7 @@ int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
 
     st = channels == 2 ? 1 : 0;
 
-    switch(avctx->codec->id) {
+    switch(avctx->codec_id) {
     CASE(ADPCM_IMA_QT,
         /* In QuickTime, IMA is encoded by chunks of 34 bytes (=64 samples).
            Channel data is interleaved per-chunk. */
@@ -1743,7 +1743,7 @@ int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
            2chan: 0=fl, 1=fr
            4chan: 0=fl, 1=rl, 2=fr, 3=rr
            6chan: 0=fl, 1=c,  2=fr, 3=rl,  4=rr, 5=sub */
-        const int big_endian = avctx->codec->id == AV_CODEC_ID_ADPCM_EA_R3;
+        const int big_endian = avctx->codec_id == AV_CODEC_ID_ADPCM_EA_R3;
         int previous_sample, current_sample, next_sample;
         int coeff1, coeff2;
         int shift;
@@ -1762,7 +1762,7 @@ int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
             bytestream2_seek(&gb, offsets[channel], SEEK_SET);
             samplesC = samples_p[channel];
 
-            if (avctx->codec->id == AV_CODEC_ID_ADPCM_EA_R1) {
+            if (avctx->codec_id == AV_CODEC_ID_ADPCM_EA_R1) {
                 current_sample  = sign_extend(bytestream2_get_le16(&gb), 16);
                 previous_sample = sign_extend(bytestream2_get_le16(&gb), 16);
             } else {
@@ -1808,7 +1808,7 @@ int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
                 count = FFMAX(count, count1);
             }
 
-            if (avctx->codec->id != AV_CODEC_ID_ADPCM_EA_R1) {
+            if (avctx->codec_id != AV_CODEC_ID_ADPCM_EA_R1) {
                 c->status[channel].predictor   = current_sample;
                 c->status[channel].prev_sample = previous_sample;
             }
@@ -1947,7 +1947,7 @@ int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
             c->status[0].step_index = 1;
             nb_samples--;
         }
-        if (avctx->codec->id == AV_CODEC_ID_ADPCM_SBPRO_4) {
+        if (avctx->codec_id == AV_CODEC_ID_ADPCM_SBPRO_4) {
             for (int n = nb_samples >> (1 - st); n > 0; n--) {
                 int byte = bytestream2_get_byteu(&gb);
                 *samples++ = adpcm_sbpro_expand_nibble(&c->status[0],
@@ -1955,7 +1955,7 @@ int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
                 *samples++ = adpcm_sbpro_expand_nibble(&c->status[st],
                                                        byte & 0x0F, 4, 0);
             }
-        } else if (avctx->codec->id == AV_CODEC_ID_ADPCM_SBPRO_3) {
+        } else if (avctx->codec_id == AV_CODEC_ID_ADPCM_SBPRO_3) {
             for (int n = (nb_samples<<st) / 3; n > 0; n--) {
                 int byte = bytestream2_get_byteu(&gb);
                 *samples++ = adpcm_sbpro_expand_nibble(&c->status[0],
@@ -2060,7 +2060,7 @@ int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
 
 #define THP_GET16(g) \
     sign_extend( \
-        avctx->codec->id == AV_CODEC_ID_ADPCM_THP_LE ? \
+        avctx->codec_id == AV_CODEC_ID_ADPCM_THP_LE ? \
         bytestream2_get_le16u(&(g)) : \
         bytestream2_get_be16u(&(g)), 16)
 

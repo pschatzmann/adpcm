@@ -10,25 +10,6 @@
 extern "C" {
 #endif
 
-/**
- * @file compat_public.h
- * public data structures
- */
-
-typedef struct ADPCMChannelStatus {
-  int predictor;
-  int16_t step_index;
-  int step;
-  /* for encoding */
-  int prev_sample;
-
-  /* MS version */
-  int sample1;
-  int sample2;
-  int coeff1;
-  int coeff2;
-  int idelta;
-} ADPCMChannelStatus;
 
 /**
  * @brief This structure stores compressed data. It is typically exported by
@@ -172,7 +153,7 @@ typedef struct ADPCMEncodeContext {
   // AVClass *class;
   int block_size;
 
-  ADPCMChannelStatus status[6];
+  //ADPCMChannelStatus status[6];
   TrellisPath *paths;
   TrellisNode *node_buf;
   TrellisNode **nodep_buf;
@@ -183,7 +164,7 @@ typedef struct ADPCMEncodeContext {
  * @brief C API context for encoder and decoder
 */
 
-typedef struct AVCodecContext {
+typedef avctx->codec_id {
   int trellis;
   int frame_size;
   int block_align;

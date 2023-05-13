@@ -1,0 +1,4 @@
+<map id="adpcm_ffmpeg::ADPCMCodec" name="adpcm_ffmpeg::ADPCMCodec">
+<area shape="rect" id="node1" title="Common ADPCM Functionality." alt="" coords="5,95,220,121"/>
+<area shape="rect" id="node2" href="$structAVCodecContext.html" title="C API context for encoder and decoder." alt="" coords="47,5,178,32"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="adpcm_ffmpeg::ADPCMCodec" name="adpcm_ffmpeg::ADPCMCodec">
+<area shape="rect" id="node1" title="Common ADPCM Functionality." alt="" coords="138,5,353,32"/>
+<area shape="rect" id="node2" href="$classadpcm__ffmpeg_1_1ADPCMDecoder.html" title="ADPCM Decoder." alt="" coords="5,80,235,107"/>
+<area shape="rect" id="node3" href="$classadpcm__ffmpeg_1_1ADPCMEncoder.html" title="ADPCM Encoder." alt="" coords="259,80,485,107"/>
+</map>
