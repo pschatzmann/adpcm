@@ -87,7 +87,7 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classadpcm__ffmpeg_1_1ADPCMEncoder.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="classadpcm__ffmpeg_1_1ADPCMEncoder.html">ADPCMEncoder</a> : <span class="keyword">public</span> <a class="code" href="classadpcm__ffmpeg_1_1ADPCMCodec.html">ADPCMCodec</a> {</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <a class="code" href="classadpcm__ffmpeg_1_1ADPCMEncoder.html">ADPCMEncoder</a>(AVCodecID <span class="keywordtype">id</span>, <span class="keywordtype">int</span> blockSize = 256) {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <a class="code" href="classadpcm__ffmpeg_1_1ADPCMEncoder.html">ADPCMEncoder</a>(<a class="code" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a> <span class="keywordtype">id</span>, <span class="keywordtype">int</span> blockSize = 256) {</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    this-&gt;<span class="keywordtype">id</span> = id;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    avctx.codec_id = id;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    avctx.priv_data = (uint8_t *)&amp;enc_ctx;</div>
@@ -118,7 +118,7 @@ $(function() {
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  AVCodecID id;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <a class="code" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a> id;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <a class="code" href="structAVPacket.html">AVPacket</a> result;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <a class="code" href="structAVFrame.html">AVFrame</a> frame;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <a class="code" href="structADPCMEncodeContext.html">ADPCMEncodeContext</a> enc_ctx;</div>
@@ -127,7 +127,7 @@ $(function() {
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
 <div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classadpcm__ffmpeg_1_1ADPCMDecoder.html">   74</a></span>&#160;<span class="keyword">class </span><a class="code" href="classadpcm__ffmpeg_1_1ADPCMDecoder.html">ADPCMDecoder</a> : <span class="keyword">public</span> <a class="code" href="classadpcm__ffmpeg_1_1ADPCMCodec.html">ADPCMCodec</a> {</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <a class="code" href="classadpcm__ffmpeg_1_1ADPCMDecoder.html">ADPCMDecoder</a>(AVCodecID <span class="keywordtype">id</span>) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <a class="code" href="classadpcm__ffmpeg_1_1ADPCMDecoder.html">ADPCMDecoder</a>(<a class="code" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a> <span class="keywordtype">id</span>) {</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    this-&gt;<span class="keywordtype">id</span> = id;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    avctx.codec_id = id;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    avctx.bits_per_coded_sample = 4;</div>
@@ -180,7 +180,7 @@ $(function() {
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  AVCodecID id;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <a class="code" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a> id;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <a class="code" href="structAVPacket.html">AVPacket</a> packet;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <a class="code" href="structAVFrame.html">AVFrame</a> result;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <a class="code" href="structADPCMEncodeContext.html">ADPCMEncodeContext</a> enc_ctx;</div>
@@ -203,9 +203,10 @@ $(function() {
 <div class="ttc" id="aclassadpcm__ffmpeg_1_1ADPCMDecoder_html"><div class="ttname"><a href="classadpcm__ffmpeg_1_1ADPCMDecoder.html">adpcm_ffmpeg::ADPCMDecoder</a></div><div class="ttdoc">ADPCM Decoder.</div><div class="ttdef"><b>Definition:</b> ADPCM.h:74</div></div>
 <div class="ttc" id="aclassadpcm__ffmpeg_1_1ADPCMEncoder_html"><div class="ttname"><a href="classadpcm__ffmpeg_1_1ADPCMEncoder.html">adpcm_ffmpeg::ADPCMEncoder</a></div><div class="ttdoc">ADPCM Encoder.</div><div class="ttdef"><b>Definition:</b> ADPCM.h:28</div></div>
 <div class="ttc" id="acompat__public_8h_html"><div class="ttname"><a href="compat__public_8h.html">compat_public.h</a></div></div>
-<div class="ttc" id="acompat__public_8h_html_af9a51ca15301871723577c730b5865c5aea6132df57aebc3f76e10665395c46af"><div class="ttname"><a href="compat__public_8h.html#af9a51ca15301871723577c730b5865c5aea6132df57aebc3f76e10665395c46af">AV_SAMPLE_FMT_S16</a></div><div class="ttdeci">@ AV_SAMPLE_FMT_S16</div><div class="ttdoc">signed 16 bits</div><div class="ttdef"><b>Definition:</b> compat_public.h:204</div></div>
-<div class="ttc" id="astructADPCMEncodeContext_html"><div class="ttname"><a href="structADPCMEncodeContext.html">ADPCMEncodeContext</a></div><div class="ttdef"><b>Definition:</b> compat_public.h:171</div></div>
-<div class="ttc" id="astructAVCodecContext_html"><div class="ttname"><a href="structAVCodecContext.html">AVCodecContext</a></div><div class="ttdoc">C API context for encoder and decoder.</div><div class="ttdef"><b>Definition:</b> compat_public.h:186</div></div>
+<div class="ttc" id="acompat__public_8h_html_aadca229ad2c20e060a14fec08a5cc7ce"><div class="ttname"><a href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a></div><div class="ttdeci">AVCodecID</div><div class="ttdef"><b>Definition:</b> compat_public.h:89</div></div>
+<div class="ttc" id="acompat__public_8h_html_af9a51ca15301871723577c730b5865c5aea6132df57aebc3f76e10665395c46af"><div class="ttname"><a href="compat__public_8h.html#af9a51ca15301871723577c730b5865c5aea6132df57aebc3f76e10665395c46af">AV_SAMPLE_FMT_S16</a></div><div class="ttdeci">@ AV_SAMPLE_FMT_S16</div><div class="ttdoc">signed 16 bits</div><div class="ttdef"><b>Definition:</b> compat_public.h:153</div></div>
+<div class="ttc" id="astructADPCMEncodeContext_html"><div class="ttname"><a href="structADPCMEncodeContext.html">ADPCMEncodeContext</a></div><div class="ttdef"><b>Definition:</b> compat_public.h:188</div></div>
+<div class="ttc" id="astructAVCodecContext_html"><div class="ttname"><a href="structAVCodecContext.html">AVCodecContext</a></div><div class="ttdoc">C API context for encoder and decoder.</div><div class="ttdef"><b>Definition:</b> compat_public.h:203</div></div>
 <div class="ttc" id="astructAVFrame_html"><div class="ttname"><a href="structAVFrame.html">AVFrame</a></div><div class="ttdoc">This structure provides the uncompressed PCM data.</div><div class="ttdef"><b>Definition:</b> compat_public.h:47</div></div>
 <div class="ttc" id="astructAVFrame_html_a02f45ab8191aea1660159f1e464237ea"><div class="ttname"><a href="structAVFrame.html#a02f45ab8191aea1660159f1e464237ea">AVFrame::nb_samples</a></div><div class="ttdeci">int nb_samples</div><div class="ttdef"><b>Definition:</b> compat_public.h:66</div></div>
 <div class="ttc" id="astructAVFrame_html_a1d0f65014a8d1bf78cec8cbed2304992"><div class="ttname"><a href="structAVFrame.html#a1d0f65014a8d1bf78cec8cbed2304992">AVFrame::data</a></div><div class="ttdeci">uint8_t * data[AV_NUM_DATA_POINTERS]</div><div class="ttdef"><b>Definition:</b> compat_public.h:61</div></div>
