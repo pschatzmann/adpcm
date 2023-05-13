@@ -1,6 +1,7 @@
 /**
- * Compatibility layer: All other Data Structures and functions that are needed
- * by the adpcm implementation.
+ * Compatibility layer: All other data structures and functions that are needed
+ * by the adpcm implementation which are usually provided by the ffmpeg
+ * infrastructure.
  */
 
 #pragma once
@@ -62,9 +63,6 @@ enum av_errors {
 #define AV_LOG_WARNING 24
 #define AV_LOG_INFO 32
 
-typedef struct AVClass {
-  int sample_rate;
-} AVClass;
 
 // activate the encoders & decoders
 #define CONFIG_ADPCM_4XM_DECODER 1
@@ -134,7 +132,6 @@ typedef struct AVClass {
 #define CONFIG_ADPCM_YAMAHA_DECODER 1
 #define CONFIG_ADPCM_YAMAHA_ENCODER 1
 #define CONFIG_ADPCM_ZORK_DECODER 1
-
 
 static av_always_inline av_const int av_clip(int a, int amin, int amax) {
 #if defined(HAVE_AV_CONFIG_H) && defined(ASSERT_LEVEL) && ASSERT_LEVEL >= 2
@@ -288,13 +285,20 @@ static inline av_const unsigned zero_extend(unsigned val, unsigned bits) {
 }
 #endif
 
-int ff_get_encode_buffer(AVCodecContext *avctx, AVPacket *avpkt, int64_t size,
-                         int flags);
+static int ff_get_encode_buffer(AVCodecContext *avctx, AVPacket *avpkt, int64_t size,
+                         int flags) {
+  avpkt->size = size;
+  return 0;
+}
 
-int ff_get_buffer(AVCodecContext *avctx, AVFrame *frame, int flags);
+static int ff_get_buffer(AVCodecContext *avctx, AVFrame *frame, int flags) {
+  return 0;
+}
 
 //  error message about missing feature
-void avpriv_request_sample(void *avc, const char *msg, ...);
+static void avpriv_request_sample(void *avc, const char *msg, ...) {
+  printf("%s", msg);
+}
 
 #define av_log(A, B, ...) printf(__VA_ARGS__);
 

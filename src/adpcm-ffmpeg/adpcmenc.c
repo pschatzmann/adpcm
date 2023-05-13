@@ -54,36 +54,16 @@
 #define CASE(codec, ...) \
         CASE_3(CONFIG_ ## codec ## _ENCODER, AV_CODEC_ID_ ## codec, __VA_ARGS__)
 
-typedef struct TrellisPath {
-    int nibble;
-    int prev;
-} TrellisPath;
-
-typedef struct TrellisNode {
-    uint32_t ssd;
-    int path;
-    int sample1;
-    int sample2;
-    int step;
-} TrellisNode;
-
-typedef struct ADPCMEncodeContext {
-    AVClass *class;
-    int block_size;
-
-    ADPCMChannelStatus status[6];
-    TrellisPath *paths;
-    TrellisNode *node_buf;
-    TrellisNode **nodep_buf;
-    uint8_t *trellis_hash;
-} ADPCMEncodeContext;
-
 #define FREEZE_INTERVAL 128
 
-static av_cold int adpcm_encode_init(AVCodecContext *avctx)
+ av_cold int adpcm_encode_init(AVCodecContext *avctx)
 {
     ADPCMEncodeContext *s = avctx->priv_data;
     int channels = avctx->nb_channels;
+
+    if (s==NULL){
+        return -1;
+    }
 
     /*
      * AMV's block size has to match that of the corresponding video
@@ -217,7 +197,7 @@ static av_cold int adpcm_encode_init(AVCodecContext *avctx)
     return 0;
 }
 
-static av_cold int adpcm_encode_close(AVCodecContext *avctx)
+int adpcm_encode_close(AVCodecContext *avctx)
 {
     ADPCMEncodeContext *s = avctx->priv_data;
     av_freep(&s->paths);
@@ -598,7 +578,7 @@ static int64_t adpcm_argo_compress_block(ADPCMChannelStatus *cs, PutBitContext *
 }
 #endif
 
-static int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
+int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
                               const AVFrame *frame, int *got_packet_ptr)
 {
     int st, pkt_size, ret;
@@ -610,6 +590,8 @@ static int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
 
     samples = (const int16_t *)frame->data[0];
     samples_p = (const int16_t *const *)frame->extended_data;
+    assert(samples_p!=NULL);
+    assert(samples!=NULL);
     st = channels == 2;
 
     if (avctx->codec_id == AV_CODEC_ID_ADPCM_IMA_SSI ||
@@ -624,6 +606,8 @@ static int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     dst = avpkt->data;
 
     switch(avctx->codec->id) {
+
+
     CASE(ADPCM_IMA_WAV,
         int blocks = (frame->nb_samples - 1) / 8;
 
@@ -960,6 +944,8 @@ static int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     *got_packet_ptr = 1;
     return 0;
 }
+
+
 
 // static const enum AVSampleFormat sample_fmts[] = {
 //     AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE

@@ -7,9 +7,10 @@ project(adpcm_ffmpeg)
 # add_compile_options(-Wall -Wextra )
 
 # define as library
-add_library (adpcm_ffmpeg src/adpcm-ffmpeg/adpcm_data.c src/adpcm-ffmpeg/adpcm.c src/adpcm-ffmpeg/adpcmenc.c)
+#add_library (adpcm_ffmpeg src/adpcm-ffmpeg/adpcm_data.c src/adpcm-ffmpeg/adpcm.c src/adpcm-ffmpeg/adpcmenc.c)
 
 # define location for header files
-target_include_directories(adpcm_ffmpeg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ffmpeg ${CMAKE_CURRENT_SOURCE_DIR}/src/ )
-
+#target_include_directories(adpcm_ffmpeg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ffmpeg ${CMAKE_CURRENT_SOURCE_DIR}/src/ )
+add_subdirectory("src/adpcm-ffmpeg")
+add_subdirectory("test")
 

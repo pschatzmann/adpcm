@@ -251,15 +251,20 @@ typedef struct ADPCMDecodeContext {
     int has_status;                 /**< Status flag. Reset to 0 after a flush. */
 } ADPCMDecodeContext;
 
-static void adpcm_flush(AVCodecContext *avctx);
+void adpcm_flush(AVCodecContext *avctx);
 
-static av_cold int adpcm_decode_init(AVCodecContext * avctx)
+int adpcm_decode_init(AVCodecContext * avctx)
 {
     ADPCMDecodeContext *c = avctx->priv_data;
     unsigned int min_channels = 1;
     unsigned int max_channels = 2;
 
-    adpcm_flush(avctx);
+    if (c==NULL){
+        av_log(avctx, AV_LOG_ERROR, "priv_data is null");
+        return -1;
+    }
+
+    //adpcm_flush(avctx);
 
     switch(avctx->codec->id) {
     case AV_CODEC_ID_ADPCM_IMA_AMV:
@@ -1071,7 +1076,7 @@ static int get_nb_samples(AVCodecContext *avctx, GetByteContext *gb,
     return nb_samples;
 }
 
-static int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
+int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
                               int *got_frame_ptr, AVPacket *avpkt)
 {
     const uint8_t *buf = avpkt->data;
@@ -2281,7 +2286,8 @@ static int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return bytestream2_tell(&gb);
 }
 
-static void adpcm_flush(AVCodecContext *avctx)
+
+void adpcm_flush(AVCodecContext *avctx)
 {
     ADPCMDecodeContext *c = avctx->priv_data;
 

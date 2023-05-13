@@ -31,20 +31,6 @@
 #include "compat.h"
 
 
-typedef struct ADPCMChannelStatus {
-  int predictor;
-  int16_t step_index;
-  int step;
-  /* for encoding */
-  int prev_sample;
-
-  /* MS version */
-  int sample1;
-  int sample2;
-  int coeff1;
-  int coeff2;
-  int idelta;
-} ADPCMChannelStatus;
 
 int16_t ff_adpcm_argo_expand_nibble(ADPCMChannelStatus *cs, int nibble,
                                     int shift, int flag);

@@ -1,20 +1,39 @@
 /**
- * Compatibility layer: All other public data structures and functions that are
- * needed by the adpcm implementation.
+ * Compatibility layer: All public data structures and functions that are
+ * needed by the adpcm implementation and are usually provided by the ffmpeg
+ * infrastructure.
  */
 #pragma once
 #include <stdint.h>
 
-/** 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/**
  * @file compat_public.h
  * public data structures
  */
 
+typedef struct ADPCMChannelStatus {
+  int predictor;
+  int16_t step_index;
+  int step;
+  /* for encoding */
+  int prev_sample;
+
+  /* MS version */
+  int sample1;
+  int sample2;
+  int coeff1;
+  int coeff2;
+  int idelta;
+} ADPCMChannelStatus;
 
 /**
- * @brief This structure stores compressed data. It is typically exported by demuxers
- * and then passed as input to decoders, or received as output from encoders and
- * then passed to muxers.
+ * @brief This structure stores compressed data. It is typically exported by
+ * demuxers and then passed as input to decoders, or received as output from
+ * encoders and then passed to muxers.
  *
  */
 typedef struct AVPacket {
@@ -40,7 +59,26 @@ typedef struct AVFrame {
    * MUST be set to NULL.
    */
   uint8_t *data[AV_NUM_DATA_POINTERS];
+  /**
+   * number of audio samples (per channel) described by this frame
+   */
+
   int nb_samples;
+  /**
+   * pointers to the data planes/channels.
+   *
+   * For video, this should simply point to data[].
+   *
+   * For planar audio, each channel has a separate data pointer, and
+   * linesize[0] contains the size of each channel buffer.
+   * For packed audio, there is just one data pointer, and linesize[0]
+   * contains the total size of the buffer for all channels.
+   *
+   * Note: Both data and extended_data should always be set in a valid frame,
+   * but for planar audio with more channels that can fit in data,
+   * extended_data must be used in order to access all channels.
+   */
+
   int16_t **extended_data;
 } AVFrame;
 
@@ -113,6 +151,33 @@ typedef struct Codec {
   enum AVCodecID id;
 } Codec;
 
+typedef struct TrellisPath {
+  int nibble;
+  int prev;
+} TrellisPath;
+
+typedef struct TrellisNode {
+  uint32_t ssd;
+  int path;
+  int sample1;
+  int sample2;
+  int step;
+} TrellisNode;
+
+typedef struct AVClass {
+  int sample_rate;
+} AVClass;
+
+typedef struct ADPCMEncodeContext {
+  // AVClass *class;
+  int block_size;
+
+  ADPCMChannelStatus status[6];
+  TrellisPath *paths;
+  TrellisNode *node_buf;
+  TrellisNode **nodep_buf;
+  uint8_t *trellis_hash;
+} ADPCMEncodeContext;
 
 typedef struct AVCodecContext {
   int trellis;
@@ -148,3 +213,7 @@ enum AVSampleFormat {
   AV_SAMPLE_FMT_NB  ///< Number of sample formats. DO NOT USE if linking
                     ///< dynamically
 };
+
+#ifdef __cplusplus
+}
+#endif
