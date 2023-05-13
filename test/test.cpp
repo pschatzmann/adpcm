@@ -18,7 +18,7 @@ ADPCMDecoder decoder{AV_CODEC_ID_ADPCM_IMA_WAV};
 ADPCMEncoder encoder{AV_CODEC_ID_ADPCM_IMA_WAV};
 vector<int16_t> frame_vector;
 SineWaveGenerator<int16_t> gen{30000.0};
-int channels = 1;
+int channels = 2;
 int sample_rate = 44100;
 int loop_count = 100;
 
