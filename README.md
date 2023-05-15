@@ -15,4 +15,4 @@ Therefore I decided to extract the FFmpeg implementation and provide it as a sta
 
 # Usage
 
-This library can be used with cmake or as an Arduino library
+This library can be used directly with cmake or as an Arduino library. However I recommend to use it as [Codec](https://github.com/pschatzmann/arduino-audio-tools/wiki/Encoding-and-Decoding-of-Audio) with the [Arduino Audio Tools](https://github.com/pschatzmann/arduino-audio-tools). 
