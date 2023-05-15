@@ -38,7 +38,7 @@ class ADPCMEncoder : public ADPCMCodec {
   bool begin(int sampleRate, int channels) {
     avctx.sample_rate = sampleRate;
     avctx.nb_channels = channels;
-    avctx.sample_fmt = AV_SAMPLE_FMT_S16;
+    //avctx.sample_fmt = AV_SAMPLE_FMT_S16;
     return adpcm_encode_init(&avctx) == 0;
   }
 

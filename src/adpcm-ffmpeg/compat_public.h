@@ -202,7 +202,9 @@ typedef struct ADPCMEncodeContext {
 
 typedef struct AVCodecContext {
   int trellis;
+  /// @brief Number of samples per channel in an audio frame.
   int frame_size;
+  /// @brief number of bytes per packet if constant and known or 0 Used by some WAV based audio codecs.
   int block_align;
   uint8_t *extradata;
   int extradata_size;
@@ -210,6 +212,7 @@ typedef struct AVCodecContext {
   enum AVCodecID codec_id;
   void *priv_data;
   int nb_channels;
+  // bits per sample/pixel from the demuxer
   int bits_per_coded_sample;
   int sample_rate;
   int sample_fmt;

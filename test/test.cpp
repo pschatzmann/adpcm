@@ -46,7 +46,7 @@ void displayPacket(AVPacket& packet) {
 void displayResult(AVFrame& frame) {
   // print the result
   int16_t* data = (int16_t*) frame.data[0];
-  size_t frames = frame.nb_samples / channels ;
+  size_t frames = frame.nb_samples  ;
   for (int j = 0; j < frames; j += channels) {
     for (int ch = 0; ch < channels; ch++) {
       cout << data[j + ch] << " ";
@@ -78,14 +78,15 @@ int main() {
   }
 
   int frame_size = checkFrameSize();
+  int sample_count = frame_size * channels;
 
   // setup data for frame
-  frame_vector.resize(frame_size);
+  frame_vector.resize(sample_count);
 
   for (int n = 0; n < loop_count; n++) {
-    size_t samples = loadSamples(frame_size);
+    size_t samples = loadSamples(sample_count);
 
-    AVPacket& packet = encoder.encode(&frame_vector[0], frame_size);
+    AVPacket& packet = encoder.encode(&frame_vector[0], sample_count);
     displayPacket(packet);
 
     // decode
