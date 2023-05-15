@@ -1076,6 +1076,115 @@ static int get_nb_samples(AVCodecContext *avctx, GetByteContext *gb,
     return nb_samples;
 }
 
+#if DEBUG
+int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
+                              int *got_frame_ptr, AVPacket *avpkt)
+{
+    const uint8_t *buf = avpkt->data;
+    int buf_size = avpkt->size;
+    ADPCMDecodeContext *c = avctx->priv_data;
+    int channels = avctx->nb_channels;
+    int16_t *samples;
+    int16_t **samples_p;
+    int st; /* stereo */
+    int nb_samples, coded_samples, approx_nb_samples, ret;
+    GetByteContext gb;
+
+    bytestream2_init(&gb, buf, buf_size);
+    nb_samples = get_nb_samples(avctx, &gb, buf_size, &coded_samples, &approx_nb_samples);
+    if (nb_samples <= 0) {
+        av_log(avctx, AV_LOG_ERROR, "invalid number of samples in packet\n");
+        return AVERROR_INVALIDDATA;
+    }
+
+    /* get output buffer */
+    frame->nb_samples = nb_samples;
+    if ((ret = ff_get_buffer(avctx, frame, 0)) < 0)
+        return ret;
+    samples = (int16_t *)frame->data[0];
+    samples_p = (int16_t **)frame->extended_data;
+
+    /* use coded_samples when applicable */
+    /* it is always <= nb_samples, so the output buffer will be large enough */
+    if (coded_samples) {
+        if (!approx_nb_samples && coded_samples != nb_samples)
+            av_log(avctx, AV_LOG_WARNING, "mismatch in coded sample count\n");
+        frame->nb_samples = nb_samples = coded_samples;
+    }
+
+    st = channels == 2 ? 1 : 0;
+
+    // ADPCM_IMA_WAV
+
+    for (int i = 0; i < channels; i++) {
+        ADPCMChannelStatus *cs = &c->status[i];
+        cs->predictor = samples_p[i][0] = sign_extend(bytestream2_get_le16u(&gb), 16);
+
+        cs->step_index = sign_extend(bytestream2_get_le16u(&gb), 16);
+        if (cs->step_index > 88u){
+            av_log(avctx, AV_LOG_ERROR, "ERROR: step_index[%d] = %i\n",
+                    i, cs->step_index);
+            return AVERROR_INVALIDDATA;
+        }
+    }
+
+    if (avctx->bits_per_coded_sample != 4) {
+        int samples_per_block = ff_adpcm_ima_block_samples[avctx->bits_per_coded_sample - 2];
+        int block_size = ff_adpcm_ima_block_sizes[avctx->bits_per_coded_sample - 2];
+        uint8_t temp[20 + AV_INPUT_BUFFER_PADDING_SIZE] = { 0 };
+        GetBitContext g;
+
+        for (int n = 0; n < (nb_samples - 1) / samples_per_block; n++) {
+            for (int i = 0; i < channels; i++) {
+                ADPCMChannelStatus *cs = &c->status[i];
+                samples = &samples_p[i][1 + n * samples_per_block];
+                for (int j = 0; j < block_size; j++) {
+                    temp[j] = buf[4 * channels + block_size * n * channels +
+                                    (j % 4) + (j / 4) * (channels * 4) + i * 4];
+                }
+                ret = init_get_bits8(&g, (const uint8_t *)&temp, block_size);
+                if (ret < 0)
+                    return ret;
+                for (int m = 0; m < samples_per_block; m++) {
+                    samples[m] = adpcm_ima_wav_expand_nibble(cs, &g,
+                                        avctx->bits_per_coded_sample);
+                }
+            }
+        }
+        bytestream2_skip(&gb, avctx->block_align - channels * 4);
+    } else {
+        for (int n = 0; n < (nb_samples - 1) / 8; n++) {
+            for (int i = 0; i < channels; i++) {
+                ADPCMChannelStatus *cs = &c->status[i];
+                samples = &samples_p[i][1 + n * 8];
+                for (int m = 0; m < 8; m += 2) {
+                    int v = bytestream2_get_byteu(&gb);
+                    samples[m    ] = adpcm_ima_expand_nibble(cs, v & 0x0F, 3);
+                    samples[m + 1] = adpcm_ima_expand_nibble(cs, v >> 4  , 3);
+                    // printf("%d:[%d %d]", i, 1+n*8+m, 1+n*8+m+1);
+                }
+            }
+        }
+    }
+
+
+    if (avpkt->size && bytestream2_tell(&gb) == 0) {
+        av_log(avctx, AV_LOG_ERROR, "Nothing consumed\n");
+        return AVERROR_INVALIDDATA;
+    }
+
+    *got_frame_ptr = 1;
+
+    if (avpkt->size < bytestream2_tell(&gb)) {
+        av_log(avctx, AV_LOG_ERROR, "Overread of %d < %d\n", avpkt->size, bytestream2_tell(&gb));
+        return avpkt->size;
+    }
+
+    return bytestream2_tell(&gb);
+}
+
+#else
+
 int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
                               int *got_frame_ptr, AVPacket *avpkt)
 {
@@ -2286,6 +2395,7 @@ int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return bytestream2_tell(&gb);
 }
 
+#endif
 
 void adpcm_flush(AVCodecContext *avctx)
 {

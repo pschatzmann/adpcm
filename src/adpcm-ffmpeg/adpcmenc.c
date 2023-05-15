@@ -578,6 +578,87 @@ static int64_t adpcm_argo_compress_block(ADPCMChannelStatus *cs, PutBitContext *
 }
 #endif
 
+#if DEBUG
+
+int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
+                              const AVFrame *frame, int *got_packet_ptr)
+{
+    int st, pkt_size, ret;
+    const int16_t *samples;
+    const int16_t *const *samples_p;
+    uint8_t *dst;
+    ADPCMEncodeContext *c = avctx->priv_data;
+    int channels = avctx->nb_channels;
+
+    samples = (const int16_t *)frame->data[0];
+    samples_p = (const int16_t *const *)frame->extended_data;
+    assert(samples_p!=NULL);
+    assert(samples!=NULL);
+    st = channels == 2;
+
+    if (avctx->codec_id == AV_CODEC_ID_ADPCM_IMA_SSI ||
+        avctx->codec_id == AV_CODEC_ID_ADPCM_IMA_ALP ||
+        avctx->codec_id == AV_CODEC_ID_ADPCM_IMA_APM ||
+        avctx->codec_id == AV_CODEC_ID_ADPCM_IMA_WS)
+        pkt_size = (frame->nb_samples * channels + 1) / 2;
+    else
+        pkt_size = avctx->block_align;
+    if ((ret = ff_get_encode_buffer(avctx, avpkt, pkt_size, 0)) < 0)
+        return ret;
+    dst = avpkt->data;
+
+
+    // IMA WAV logic
+    int blocks = (frame->nb_samples - 1) / 8;
+
+    for (int ch = 0; ch < channels; ch++) {
+        ADPCMChannelStatus *status = &c->status[ch];
+        status->prev_sample = samples_p[ch][0];
+        /* status->step_index = 0;
+            XXX: not sure how to init the state machine */
+        bytestream_put_le16(&dst, status->prev_sample);
+        *dst++ = status->step_index;
+        *dst++ = 0; /* unknown */
+    }
+
+    /* stereo: 4 bytes (8 samples) for left, 4 bytes for right */
+    if (avctx->trellis > 0) {
+        uint8_t *buf;
+        if (!FF_ALLOC_TYPED_ARRAY(buf, channels * blocks * 8))
+            return AVERROR(ENOMEM);
+        for (int ch = 0; ch < channels; ch++) {
+            adpcm_compress_trellis(avctx, &samples_p[ch][1],
+                                    buf + ch * blocks * 8, &c->status[ch],
+                                    blocks * 8, 1);
+        }
+        for (int i = 0; i < blocks; i++) {
+            for (int ch = 0; ch < channels; ch++) {
+                uint8_t *buf1 = buf + ch * blocks * 8 + i * 8;
+                for (int j = 0; j < 8; j += 2)
+                    *dst++ = buf1[j] | (buf1[j + 1] << 4);
+            }
+        }
+        av_free(buf);
+    } else {
+        for (int i = 0; i < blocks; i++) {
+            for (int ch = 0; ch < channels; ch++) {
+                ADPCMChannelStatus *status = &c->status[ch];
+                const int16_t *smp = &samples_p[ch][1 + i * 8];
+                for (int j = 0; j < 8; j += 2) {
+                    uint8_t v = adpcm_ima_compress_sample(status, smp[j    ]);
+                    v        |= adpcm_ima_compress_sample(status, smp[j + 1]) << 4;
+                    *dst++ = v;
+                }
+            }
+        }
+    }
+
+
+    *got_packet_ptr = 1;
+    return 0;
+}
+
+#else
 int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
                               const AVFrame *frame, int *got_packet_ptr)
 {
@@ -944,7 +1025,7 @@ int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     *got_packet_ptr = 1;
     return 0;
 }
-
+#endif
 
 
 // static const enum AVSampleFormat sample_fmts[] = {

@@ -216,6 +216,36 @@ typedef struct AVCodecContext {
 } AVCodecContext;
 
 
+static int av_get_bits_per_sample(enum AVCodecID codec_id) {
+  switch (codec_id) {
+    case AV_CODEC_ID_ADPCM_SBPRO_2:
+      return 2;
+    case AV_CODEC_ID_ADPCM_SBPRO_3:
+      return 3;
+    case AV_CODEC_ID_ADPCM_SBPRO_4:
+    case AV_CODEC_ID_ADPCM_IMA_WAV:
+    case AV_CODEC_ID_ADPCM_IMA_QT:
+    case AV_CODEC_ID_ADPCM_SWF:
+    case AV_CODEC_ID_ADPCM_MS:
+    case AV_CODEC_ID_ADPCM_ARGO:
+    case AV_CODEC_ID_ADPCM_CT:
+    case AV_CODEC_ID_ADPCM_IMA_ALP:
+    case AV_CODEC_ID_ADPCM_IMA_AMV:
+    case AV_CODEC_ID_ADPCM_IMA_APC:
+    case AV_CODEC_ID_ADPCM_IMA_APM:
+    case AV_CODEC_ID_ADPCM_IMA_EA_SEAD:
+    case AV_CODEC_ID_ADPCM_IMA_OKI:
+    case AV_CODEC_ID_ADPCM_IMA_WS:
+    case AV_CODEC_ID_ADPCM_IMA_SSI:
+    case AV_CODEC_ID_ADPCM_G722:
+    case AV_CODEC_ID_ADPCM_YAMAHA:
+    case AV_CODEC_ID_ADPCM_AICA:
+      return 4;
+    default:
+      return 0;
+  }
+}
+
 #ifdef __cplusplus
 }
 #endif

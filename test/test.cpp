@@ -18,7 +18,7 @@ ADPCMDecoder decoder{AV_CODEC_ID_ADPCM_IMA_WAV};
 ADPCMEncoder encoder{AV_CODEC_ID_ADPCM_IMA_WAV};
 vector<int16_t> frame_vector;
 SineWaveGenerator<int16_t> gen{30000.0};
-int channels = 2;
+int channels = 1;
 int sample_rate = 44100;
 int loop_count = 100;
 
@@ -41,12 +41,12 @@ void displayPacket(AVPacket& packet) {
 }
 
 void displayResult(AVFrame& frame) {
-
   // print the result
-  size_t frames = frame.nb_samples / channels;
+  int16_t* data = (int16_t*) frame.data[0];
+  size_t frames = frame.nb_samples / channels ;
   for (int j = 0; j < frames; j += channels) {
     for (int ch = 0; ch < channels; ch++) {
-      cout << frame_vector[j + ch] << " ";
+      cout << data[j + ch] << " ";
     }
     cout << endl;
   }
