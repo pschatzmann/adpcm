@@ -18,18 +18,21 @@ ADPCMDecoder decoder{AV_CODEC_ID_ADPCM_IMA_WAV};
 ADPCMEncoder encoder{AV_CODEC_ID_ADPCM_IMA_WAV};
 vector<int16_t> frame_vector;
 SineWaveGenerator<int16_t> gen{30000.0};
-int channels = 1;
+int channels = 2;
 int sample_rate = 44100;
 int loop_count = 100;
 
-void loadSamples(int frame_size) {
+int loadSamples(int frame_size) {
   // fill frame with data
+  int result = 0;
   for (int j = 0; j < frame_size; j += channels) {
     int16_t sample = gen.nextSample();
     for (int ch = 0; ch < channels; ch++) {
       frame_vector[j + ch] = sample;
+      result++;
     }
   }
+  return result;
 }
 
 void displayPacket(AVPacket& packet) {
@@ -80,11 +83,9 @@ int main() {
   frame_vector.resize(frame_size);
 
   for (int n = 0; n < loop_count; n++) {
-    loadSamples(frame_size);
-    // encode the data
-    size_t samples = frame_size * channels;
+    size_t samples = loadSamples(frame_size);
 
-    AVPacket& packet = encoder.encode(&frame_vector[0], samples);
+    AVPacket& packet = encoder.encode(&frame_vector[0], frame_size);
     displayPacket(packet);
 
     // decode

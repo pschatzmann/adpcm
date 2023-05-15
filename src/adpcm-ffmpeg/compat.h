@@ -13,6 +13,8 @@
 
 #include "compat_public.h"
 
+// setting to 1 uses a decoder and encoder wav implementation that does 
+// not use any macros and thus can be debugged
 #define DEBUG 0
 
 #define AV_HAVE_BIGENDIAN 0

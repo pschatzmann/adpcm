@@ -1153,18 +1153,21 @@ int adpcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
         }
         bytestream2_skip(&gb, avctx->block_align - channels * 4);
     } else {
+        printf("\n");
         for (int n = 0; n < (nb_samples - 1) / 8; n++) {
             for (int i = 0; i < channels; i++) {
                 ADPCMChannelStatus *cs = &c->status[i];
                 samples = &samples_p[i][1 + n * 8];
+                printf("\n");
                 for (int m = 0; m < 8; m += 2) {
                     int v = bytestream2_get_byteu(&gb);
                     samples[m    ] = adpcm_ima_expand_nibble(cs, v & 0x0F, 3);
                     samples[m + 1] = adpcm_ima_expand_nibble(cs, v >> 4  , 3);
-                    // printf("%d:[%d %d]", i, 1+n*8+m, 1+n*8+m+1);
+                    printf("%d:[%d %d]", i, 1+n*8+m, 1+n*8+m+1);
                 }
             }
         }
+        printf("\n");
     }
 
 
