@@ -92,23 +92,23 @@ Collaboration diagram for adpcm_ffmpeg::ADPCMEncoder:</div>
 <div class="dyncontent">
 <div class="center"><img src="classadpcm__ffmpeg_1_1ADPCMEncoder__coll__graph.png" border="0" usemap="#aadpcm__ffmpeg_1_1ADPCMEncoder_coll__map" alt="Collaboration graph"/></div>
 <map name="aadpcm__ffmpeg_1_1ADPCMEncoder_coll__map" id="aadpcm__ffmpeg_1_1ADPCMEncoder_coll__map">
-<area shape="rect" title="ADPCM Encoder." alt="" coords="223,199,450,225"/>
-<area shape="rect" href="classadpcm__ffmpeg_1_1ADPCMCodec.html" title="Common ADPCM Functionality." alt="" coords="5,109,220,136"/>
-<area shape="rect" href="structAVCodecContext.html" title="C API context for encoder and decoder." alt="" coords="47,5,178,32"/>
-<area shape="rect" href="structAVPacket.html" title="This structure stores compressed data. It is typically exported by demuxers and then passed as input ..." alt="" coords="244,109,325,136"/>
-<area shape="rect" href="structAVFrame.html" title="This structure provides the uncompressed PCM data." alt="" coords="350,109,430,136"/>
-<area shape="rect" href="structADPCMEncodeContext.html" title=" " alt="" coords="454,109,622,136"/>
-<area shape="rect" href="structTrellisNode.html" title=" " alt="" coords="375,5,469,32"/>
-<area shape="rect" href="structTrellisPath.html" title=" " alt="" coords="494,5,582,32"/>
-<area shape="rect" href="structADPCMChannelStatus.html" title=" " alt="" coords="607,5,771,32"/>
+<area shape="rect" title="ADPCM Encoder." alt="" coords="314,288,541,315"/>
+<area shape="rect" href="classadpcm__ffmpeg_1_1ADPCMCodec.html" title="Common ADPCM Functionality." alt="" coords="148,199,363,225"/>
+<area shape="rect" href="structADPCMEncodeContext.html" title=" " alt="" coords="85,109,253,136"/>
+<area shape="rect" href="structTrellisNode.html" title=" " alt="" coords="5,5,100,32"/>
+<area shape="rect" href="structTrellisPath.html" title=" " alt="" coords="125,5,213,32"/>
+<area shape="rect" href="structADPCMChannelStatus.html" title=" " alt="" coords="237,5,401,32"/>
+<area shape="rect" href="structAVCodecContext.html" title="C API context for encoder and decoder." alt="" coords="277,109,407,136"/>
+<area shape="rect" href="structAVPacket.html" title="This structure stores compressed data. It is typically exported by demuxers and then passed as input ..." alt="" coords="387,199,468,225"/>
+<area shape="rect" href="structAVFrame.html" title="This structure provides the uncompressed PCM data." alt="" coords="493,199,573,225"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a92d374e70092eea30e24cdd1718938b0"><td class="memItemLeft" align="right" valign="top"><a id="a92d374e70092eea30e24cdd1718938b0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ADPCMEncoder</b> (<a class="el" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a> id, int blockSize=256)</td></tr>
-<tr class="separator:a92d374e70092eea30e24cdd1718938b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee2bf7812e11a82f400d663a000ba6db"><td class="memItemLeft" align="right" valign="top"><a id="aee2bf7812e11a82f400d663a000ba6db"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ADPCMEncoder</b> (<a class="el" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a> id, int blockSize=ADAPCM_DEFAULT_BLOCK_SIZE)</td></tr>
+<tr class="separator:aee2bf7812e11a82f400d663a000ba6db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad986f576d8591a90a04b87ebfa7b302a"><td class="memItemLeft" align="right" valign="top"><a id="ad986f576d8591a90a04b87ebfa7b302a"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> (int sampleRate, int channels)</td></tr>
 <tr class="separator:ad986f576d8591a90a04b87ebfa7b302a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,42 +118,51 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> ()</td></tr>
 <tr class="memitem:aefb03015f4611fbc995904fea0a8a75c"><td class="memItemLeft" align="right" valign="top"><a id="aefb03015f4611fbc995904fea0a8a75c"></a>
 <a class="el" href="structAVPacket.html">AVPacket</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>encode</b> (int16_t *data, size_t sampleCount)</td></tr>
 <tr class="separator:aefb03015f4611fbc995904fea0a8a75c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae59ee78895e84fefc8ab95edc9cc409"><td class="memItemLeft" align="right" valign="top"><a id="aae59ee78895e84fefc8ab95edc9cc409"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>frameSize</b> ()</td></tr>
-<tr class="separator:aae59ee78895e84fefc8ab95edc9cc409"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58c1da7a9ebcf7d431844fe18c14eeab"><td class="memItemLeft" align="right" valign="top"><a id="a58c1da7a9ebcf7d431844fe18c14eeab"></a>
 <a class="el" href="structAVCodecContext.html">AVCodecContext</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>ctx</b> ()</td></tr>
 <tr class="separator:a58c1da7a9ebcf7d431844fe18c14eeab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27f283c7e0dc4c31688637fa6b281d25"><td class="memItemLeft" align="right" valign="top"><a id="a27f283c7e0dc4c31688637fa6b281d25"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setCodecID</b> (<a class="el" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a> id)</td></tr>
+<tr class="separator:a27f283c7e0dc4c31688637fa6b281d25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dccc29e689b05fa9e8a44f27658abad"><td class="memItemLeft" align="right" valign="top"><a id="a4dccc29e689b05fa9e8a44f27658abad"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setBlockSize</b> (int size)</td></tr>
+<tr class="separator:a4dccc29e689b05fa9e8a44f27658abad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1471a1a827bb0dc1b5fdc284ae9cd088"><td class="memItemLeft" align="right" valign="top"><a id="a1471a1a827bb0dc1b5fdc284ae9cd088"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>blockSize</b> ()</td></tr>
+<tr class="separator:a1471a1a827bb0dc1b5fdc284ae9cd088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae59ee78895e84fefc8ab95edc9cc409"><td class="memItemLeft" align="right" valign="top"><a id="aae59ee78895e84fefc8ab95edc9cc409"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>frameSize</b> ()</td></tr>
+<tr class="separator:aae59ee78895e84fefc8ab95edc9cc409"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a9cfae93d86d02d138a441c151c929a42"><td class="memItemLeft" align="right" valign="top"><a id="a9cfae93d86d02d138a441c151c929a42"></a>
-<a class="el" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
-<tr class="separator:a9cfae93d86d02d138a441c151c929a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b1d77329f00809831ef48b6dbb6a1cc"><td class="memItemLeft" align="right" valign="top"><a id="a2b1d77329f00809831ef48b6dbb6a1cc"></a>
 <a class="el" href="structAVPacket.html">AVPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><b>result</b></td></tr>
 <tr class="separator:a2b1d77329f00809831ef48b6dbb6a1cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad1611dbc7c8869200335f774df0561b"><td class="memItemLeft" align="right" valign="top"><a id="aad1611dbc7c8869200335f774df0561b"></a>
 <a class="el" href="structAVFrame.html">AVFrame</a>&#160;</td><td class="memItemRight" valign="bottom"><b>frame</b></td></tr>
 <tr class="separator:aad1611dbc7c8869200335f774df0561b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeae00caeb7060a70d6215d8e7fe6d355"><td class="memItemLeft" align="right" valign="top"><a id="aeae00caeb7060a70d6215d8e7fe6d355"></a>
-<a class="el" href="structADPCMEncodeContext.html">ADPCMEncodeContext</a>&#160;</td><td class="memItemRight" valign="bottom"><b>enc_ctx</b></td></tr>
-<tr class="separator:aeae00caeb7060a70d6215d8e7fe6d355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a933a84f9ffb7da0354d3d5f3e37ec1dd"><td class="memItemLeft" align="right" valign="top"><a id="a933a84f9ffb7da0354d3d5f3e37ec1dd"></a>
 int16_t *&#160;</td><td class="memItemRight" valign="bottom"><b>extended_data</b> [2] = {0}</td></tr>
 <tr class="separator:a933a84f9ffb7da0354d3d5f3e37ec1dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6de736b19265fc1fe3c2ad19aa081613"><td class="memItemLeft" align="right" valign="top"><a id="a6de736b19265fc1fe3c2ad19aa081613"></a>
 std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>av_packet_data</b></td></tr>
 <tr class="separator:a6de736b19265fc1fe3c2ad19aa081613"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaa099598eb5897b3c97f3eb4493c825"><td class="memItemLeft" align="right" valign="top"><a id="aeaa099598eb5897b3c97f3eb4493c825"></a>
-std::vector&lt; int16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>frame_extra_data1</b></td></tr>
-<tr class="separator:aeaa099598eb5897b3c97f3eb4493c825"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab53db14cbe0684db1a6a1b89b7831fc8"><td class="memItemLeft" align="right" valign="top"><a id="ab53db14cbe0684db1a6a1b89b7831fc8"></a>
-std::vector&lt; int16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>frame_extra_data2</b></td></tr>
-<tr class="separator:ab53db14cbe0684db1a6a1b89b7831fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28446adb7c91076e11132cd19f348c18"><td class="memItemLeft" align="right" valign="top"><a id="a28446adb7c91076e11132cd19f348c18"></a>
+std::vector&lt; int16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>frame_extended_data_vector1</b></td></tr>
+<tr class="separator:a28446adb7c91076e11132cd19f348c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ddbe1d01e8ffdee044476ebaf7fecf"><td class="memItemLeft" align="right" valign="top"><a id="a29ddbe1d01e8ffdee044476ebaf7fecf"></a>
+std::vector&lt; int16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>frame_extended_data_vector2</b></td></tr>
+<tr class="separator:a29ddbe1d01e8ffdee044476ebaf7fecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c85209e06dec124bb7d57d3be45cfb7"><td class="memItemLeft" align="right" valign="top"><a id="a2c85209e06dec124bb7d57d3be45cfb7"></a>
 <a class="el" href="structAVCodecContext.html">AVCodecContext</a>&#160;</td><td class="memItemRight" valign="bottom"><b>avctx</b></td></tr>
 <tr class="separator:a2c85209e06dec124bb7d57d3be45cfb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceb5fc6a73de4a68afb1110b04aaaed8"><td class="memItemLeft" align="right" valign="top"><a id="aceb5fc6a73de4a68afb1110b04aaaed8"></a>
+<a class="el" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
+<tr class="separator:aceb5fc6a73de4a68afb1110b04aaaed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a453bbb806ab2af725ae47b2259ddd526"><td class="memItemLeft" align="right" valign="top"><a id="a453bbb806ab2af725ae47b2259ddd526"></a>
+<a class="el" href="structADPCMEncodeContext.html">ADPCMEncodeContext</a>&#160;</td><td class="memItemRight" valign="bottom"><b>enc_ctx</b></td></tr>
+<tr class="separator:a453bbb806ab2af725ae47b2259ddd526"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ADPCM Encoder. </p>

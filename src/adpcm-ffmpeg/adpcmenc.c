@@ -71,7 +71,7 @@
      */
     if (avctx->codec_id != AV_CODEC_ID_ADPCM_IMA_AMV &&
         (s->block_size & (s->block_size - 1))) {
-        av_log(avctx, AV_LOG_ERROR, "block size must be power of 2\n");
+        av_log(avctx, AV_LOG_ERROR, "block size must be power of 2: %d\n",s->block_size);
         return AVERROR(EINVAL);
     }
 

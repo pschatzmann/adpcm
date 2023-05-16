@@ -93,25 +93,44 @@ Collaboration diagram for adpcm_ffmpeg::ADPCMCodec:</div>
 <div class="dyncontent">
 <div class="center"><img src="classadpcm__ffmpeg_1_1ADPCMCodec__coll__graph.png" border="0" usemap="#aadpcm__ffmpeg_1_1ADPCMCodec_coll__map" alt="Collaboration graph"/></div>
 <map name="aadpcm__ffmpeg_1_1ADPCMCodec_coll__map" id="aadpcm__ffmpeg_1_1ADPCMCodec_coll__map">
-<area shape="rect" title="Common ADPCM Functionality." alt="" coords="5,95,220,121"/>
-<area shape="rect" href="structAVCodecContext.html" title="C API context for encoder and decoder." alt="" coords="47,5,178,32"/>
+<area shape="rect" title="Common ADPCM Functionality." alt="" coords="148,199,363,225"/>
+<area shape="rect" href="structADPCMEncodeContext.html" title=" " alt="" coords="85,109,253,136"/>
+<area shape="rect" href="structTrellisNode.html" title=" " alt="" coords="5,5,100,32"/>
+<area shape="rect" href="structTrellisPath.html" title=" " alt="" coords="125,5,213,32"/>
+<area shape="rect" href="structADPCMChannelStatus.html" title=" " alt="" coords="237,5,401,32"/>
+<area shape="rect" href="structAVCodecContext.html" title="C API context for encoder and decoder." alt="" coords="277,109,407,136"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aae59ee78895e84fefc8ab95edc9cc409"><td class="memItemLeft" align="right" valign="top"><a id="aae59ee78895e84fefc8ab95edc9cc409"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>frameSize</b> ()</td></tr>
-<tr class="separator:aae59ee78895e84fefc8ab95edc9cc409"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58c1da7a9ebcf7d431844fe18c14eeab"><td class="memItemLeft" align="right" valign="top"><a id="a58c1da7a9ebcf7d431844fe18c14eeab"></a>
 <a class="el" href="structAVCodecContext.html">AVCodecContext</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>ctx</b> ()</td></tr>
 <tr class="separator:a58c1da7a9ebcf7d431844fe18c14eeab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27f283c7e0dc4c31688637fa6b281d25"><td class="memItemLeft" align="right" valign="top"><a id="a27f283c7e0dc4c31688637fa6b281d25"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setCodecID</b> (<a class="el" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a> id)</td></tr>
+<tr class="separator:a27f283c7e0dc4c31688637fa6b281d25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dccc29e689b05fa9e8a44f27658abad"><td class="memItemLeft" align="right" valign="top"><a id="a4dccc29e689b05fa9e8a44f27658abad"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setBlockSize</b> (int size)</td></tr>
+<tr class="separator:a4dccc29e689b05fa9e8a44f27658abad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1471a1a827bb0dc1b5fdc284ae9cd088"><td class="memItemLeft" align="right" valign="top"><a id="a1471a1a827bb0dc1b5fdc284ae9cd088"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>blockSize</b> ()</td></tr>
+<tr class="separator:a1471a1a827bb0dc1b5fdc284ae9cd088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae59ee78895e84fefc8ab95edc9cc409"><td class="memItemLeft" align="right" valign="top"><a id="aae59ee78895e84fefc8ab95edc9cc409"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>frameSize</b> ()</td></tr>
+<tr class="separator:aae59ee78895e84fefc8ab95edc9cc409"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a2c85209e06dec124bb7d57d3be45cfb7"><td class="memItemLeft" align="right" valign="top"><a id="a2c85209e06dec124bb7d57d3be45cfb7"></a>
 <a class="el" href="structAVCodecContext.html">AVCodecContext</a>&#160;</td><td class="memItemRight" valign="bottom"><b>avctx</b></td></tr>
 <tr class="separator:a2c85209e06dec124bb7d57d3be45cfb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceb5fc6a73de4a68afb1110b04aaaed8"><td class="memItemLeft" align="right" valign="top"><a id="aceb5fc6a73de4a68afb1110b04aaaed8"></a>
+<a class="el" href="compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">AVCodecID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
+<tr class="separator:aceb5fc6a73de4a68afb1110b04aaaed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a453bbb806ab2af725ae47b2259ddd526"><td class="memItemLeft" align="right" valign="top"><a id="a453bbb806ab2af725ae47b2259ddd526"></a>
+<a class="el" href="structADPCMEncodeContext.html">ADPCMEncodeContext</a>&#160;</td><td class="memItemRight" valign="bottom"><b>enc_ctx</b></td></tr>
+<tr class="separator:a453bbb806ab2af725ae47b2259ddd526"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Common ADPCM Functionality. </p>

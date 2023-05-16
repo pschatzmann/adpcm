@@ -1,8 +1,11 @@
 #pragma once
 #include "adpcm-ffmpeg/adpcm_public.h"
 #include "adpcm-ffmpeg/compat_public.h"
+#include "cstring"
 #include "stddef.h"
+#include "vector"
 
+#define ADAPCM_DEFAULT_BLOCK_SIZE 256
 
 namespace adpcm_ffmpeg {
 
@@ -14,11 +17,28 @@ namespace adpcm_ffmpeg {
 
 class ADPCMCodec {
  public:
-  int frameSize() { return avctx.frame_size; }
+  ADPCMCodec() {
+    memset(&avctx, 0, sizeof(avctx));
+    memset(&enc_ctx, 0, sizeof(enc_ctx));
+  }
+
   AVCodecContext &ctx() { return avctx; }
+
+  void setCodecID(AVCodecID id) {
+    this->id = id;
+    avctx.codec_id = id;
+  }
+
+  void setBlockSize(int size) { enc_ctx.block_size = size; }
+
+  int blockSize() { return enc_ctx.block_size; }
+
+  int frameSize() { return avctx.frame_size; }
 
  protected:
   AVCodecContext avctx;
+  AVCodecID id;
+  ADPCMEncodeContext enc_ctx;
 };
 
 /**
@@ -28,18 +48,26 @@ class ADPCMCodec {
  */
 class ADPCMEncoder : public ADPCMCodec {
  public:
-  ADPCMEncoder(AVCodecID id, int blockSize = 256) {
-    this->id = id;
-    avctx.codec_id = id;
+  ADPCMEncoder() : ADPCMCodec() {
+    setBlockSize(ADAPCM_DEFAULT_BLOCK_SIZE);
+    setCodecID(AV_CODEC_ID_ADPCM_IMA_WAV);
     avctx.priv_data = (uint8_t *)&enc_ctx;
-    enc_ctx.block_size = blockSize;
+  }
+
+  ADPCMEncoder(AVCodecID id, int blockSize = ADAPCM_DEFAULT_BLOCK_SIZE)
+      : ADPCMCodec() {
+    setCodecID(id);
+    setBlockSize(blockSize);
+    avctx.priv_data = (uint8_t *)&enc_ctx;
   }
 
   bool begin(int sampleRate, int channels) {
     avctx.sample_rate = sampleRate;
     avctx.nb_channels = channels;
-    //avctx.sample_fmt = AV_SAMPLE_FMT_S16;
-    return adpcm_encode_init(&avctx) == 0;
+    // avctx.sample_fmt = AV_SAMPLE_FMT_S16;
+    bool rc = adpcm_encode_init(&avctx) == 0;
+    printf("frame_size: %d", frameSize());
+    return rc;
   }
 
   void end() { adpcm_encode_close(&avctx); }
@@ -55,16 +83,16 @@ class ADPCMEncoder : public ADPCMCodec {
       extended_data[0] = data;
     } else if (avctx.nb_channels == 2) {
       // if channels is 2 we need to split up the stereo data
-      // into separate  frame_extra_data2 arrays
-      frame_extra_data1.resize(sampleCount / 2);
-      frame_extra_data2.resize(sampleCount / 2);
-      extended_data[0] = &frame_extra_data1[0];
-      extended_data[1] = &frame_extra_data2[0];
-      for (int j = 0; j < sampleCount/2; j++) {
-        frame_extra_data1[j] = data[(j*2)];
-        frame_extra_data2[j] = data[(j*2) + 1];
+      // into separate  frame_extended_data_vector2 arrays
+      frame_extended_data_vector1.resize(sampleCount / 2);
+      frame_extended_data_vector2.resize(sampleCount / 2);
+      extended_data[0] = &frame_extended_data_vector1[0];
+      extended_data[1] = &frame_extended_data_vector2[0];
+      for (int j = 0; j < sampleCount / 2; j++) {
+        frame_extended_data_vector1[j] = data[(j * 2)];
+        frame_extended_data_vector2[j] = data[(j * 2) + 1];
       }
-    } 
+    }
     int got_packet_ptr = 0;
     av_packet_data.resize(sampleCount);
     result.data = &av_packet_data[0];
@@ -78,14 +106,12 @@ class ADPCMEncoder : public ADPCMCodec {
   }
 
  protected:
-  AVCodecID id;
   AVPacket result;
   AVFrame frame;
-  ADPCMEncodeContext enc_ctx;
   int16_t *extended_data[2] = {0};
   std::vector<uint8_t> av_packet_data;
-  std::vector<int16_t> frame_extra_data1;
-  std::vector<int16_t> frame_extra_data2;
+  std::vector<int16_t> frame_extended_data_vector1;
+  std::vector<int16_t> frame_extended_data_vector2;
 };
 
 /**
@@ -96,37 +122,48 @@ class ADPCMEncoder : public ADPCMCodec {
 
 class ADPCMDecoder : public ADPCMCodec {
  public:
-  ADPCMDecoder(AVCodecID id, int blockSize = 256) {
-    this->id = id;
-    avctx.codec_id = id;
+  ADPCMDecoder() : ADPCMCodec() {
+    setBlockSize(ADAPCM_DEFAULT_BLOCK_SIZE);
+    setCodecID(AV_CODEC_ID_ADPCM_IMA_WAV);
     avctx.bits_per_coded_sample = av_get_bits_per_sample(id);
     avctx.priv_data = (uint8_t *)&enc_ctx;
-    enc_ctx.block_size = blockSize;
   }
 
-  bool begin(int sampleRate, int channels, int frameSize) {
+  ADPCMDecoder(AVCodecID id, int blockSize = 256) : ADPCMCodec() {
+    setCodecID(id);
+    setBlockSize(blockSize);
+    avctx.bits_per_coded_sample = av_get_bits_per_sample(id);
+    avctx.priv_data = (uint8_t *)&enc_ctx;
+  }
+
+  bool begin(int sampleRate, int channels) {
     avctx.sample_rate = sampleRate;
     avctx.nb_channels = channels;
-    avctx.frame_size = frameSize;
+    // determine frame size
+    adpcm_encode_init(&avctx);
+    int frame_size = frameSize();
+    assert(frame_size != 0);
+    // avctx.frame_size = frameSize;
     avctx.sample_fmt = AV_SAMPLE_FMT_S16;
     // setup result frame data
-    frame_data.resize(frameSize * channels);
-    frame.data[0] = (uint8_t *)&frame_data[0];
+    frame_data_vector.resize(frame_size * channels);
+    frame.data[0] = (uint8_t *)&frame_data_vector[0];
     // setup extra_data
-    frame_extra_data1.resize(frameSize);
-    ext_data[0] = &frame_extra_data1[0];
+    frame_extended_data_vector1.resize(frame_size);
+    extended_data[0] = &frame_extended_data_vector1[0];
     if (channels == 2) {
-      frame_extra_data2.resize(frameSize);
-      ext_data[1] = &frame_extra_data2[0];
+      frame_extended_data_vector2.resize(frame_size);
+      extended_data[1] = &frame_extended_data_vector2[0];
     }
-    frame.extended_data = ext_data;
+    frame.extended_data = extended_data;
     // set result samples
     return adpcm_decode_init(&avctx) == 0;
+    ;
   }
 
   void end() { adpcm_flush(&avctx); }
 
-  AVFrame &decode(int8_t *data, size_t size) {
+  AVFrame &decode(uint8_t *data, size_t size) {
     packet.size = size;
     packet.data = (uint8_t *)data;
     return decode(packet);
@@ -134,12 +171,14 @@ class ADPCMDecoder : public ADPCMCodec {
 
   AVFrame &decode(AVPacket &packet) {
     int got_packet_ptr = 0;
-    //frame.nb_samples = avctx.frame_size;
+    // frame.nb_samples = avctx.frame_size;
 
     // clear frame data result
-    std::fill(frame_data.begin(), frame_data.end(), 0);
-    std::fill(frame_extra_data1.begin(), frame_extra_data1.end(), 0);
-    std::fill(frame_extra_data2.begin(), frame_extra_data2.end(), 0);
+    std::fill(frame_data_vector.begin(), frame_data_vector.end(), 0);
+    std::fill(frame_extended_data_vector1.begin(),
+              frame_extended_data_vector1.end(), 0);
+    std::fill(frame_extended_data_vector2.begin(),
+              frame_extended_data_vector2.end(), 0);
 
     int rc = adpcm_decode_frame(&avctx, &frame, &got_packet_ptr, &packet);
     if (rc == 0 || !got_packet_ptr) {
@@ -158,14 +197,12 @@ class ADPCMDecoder : public ADPCMCodec {
   }
 
  protected:
-  AVCodecID id;
   AVPacket packet;
   AVFrame frame;
-  ADPCMEncodeContext enc_ctx;
-  std::vector<int16_t> frame_data;
-  std::vector<int16_t> frame_extra_data1;
-  std::vector<int16_t> frame_extra_data2;
-  int16_t *ext_data[2];
+  std::vector<int16_t> frame_data_vector;
+  std::vector<int16_t> frame_extended_data_vector1;
+  std::vector<int16_t> frame_extended_data_vector2;
+  int16_t *extended_data[2] = {NULL};
   uint8_t *data[AV_NUM_DATA_POINTERS] = {NULL};
 };
 

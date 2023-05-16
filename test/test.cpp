@@ -72,7 +72,7 @@ int main() {
     cout << "encoder not supported";
     return -1;
   }
-  if (!decoder.begin(sample_rate, channels, encoder.frameSize())) {
+  if (!decoder.begin(sample_rate, channels)) {
     cout << "decoder not supported";
     return -1;
   }
