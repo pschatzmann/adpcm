@@ -187,7 +187,7 @@ class ADPCMDecoder : public ADPCMCodec {
 
     int16_t *result16 = (int16_t *)frame.data[0];
     int pos = 0;
-    for (int j = 0; j < frame.nb_samples; j += avctx.nb_channels) {
+    for (int j = 0; j < frame.nb_samples; j++) {
       for (int ch = 0; ch < avctx.nb_channels; ch++) {
         result16[pos++] = frame.extended_data[ch][j];
       }
