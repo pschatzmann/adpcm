@@ -75,6 +75,9 @@ Class Documentation</h1>
 <li><a href="https://pschatzmann.github.io/adpcm/docs/html/classadpcm__ffmpeg_1_1ADPCMDecoder.html">Decoder</a></li>
 </ul>
 <h1><a class="anchor" id="autotoc_md2"></a>
+Configuration</h1>
+<p>I started with all codec variants activated. Unfortunatly this was causing that the ESP32 was running out of stack. I therfore have only activated the most important variants. For details see the <a href="https://github.com/pschatzmann/adpcm/blob/main/src/adpcm-ffmpeg/config-adpcm.h">config-adpcm.h</a> file.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Usage</h1>
 <p>This library can be used directly with cmake or as an Arduino library. However I recommend to use it as <a href="https://github.com/pschatzmann/arduino-audio-tools/wiki/Encoding-and-Decoding-of-Audio">Codec</a> with the <a href="https://github.com/pschatzmann/arduino-audio-tools">Arduino Audio Tools</a>. </p>
 </div></div><!-- PageDoc -->

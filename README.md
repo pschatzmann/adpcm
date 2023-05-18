@@ -15,7 +15,7 @@ Therefore I decided to extract the FFmpeg implementation and provide it as a sta
 
 # Configuration
 
-I started with all codec variants activated. Unfortunatly this was causing that the ESP32 was running out of stack. I therfore have only activated the most important variants. For details see the config-adpcm.h file.
+I started with all codec variants activated. Unfortunatly this was causing that the ESP32 was running out of stack. I therfore have only activated the most important variants. For details see the [config-adpcm.h](https://github.com/pschatzmann/adpcm/blob/main/src/adpcm-ffmpeg/config-adpcm.h) file.
 
 # Usage
 
