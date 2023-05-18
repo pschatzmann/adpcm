@@ -11,6 +11,6 @@ project(adpcm_ffmpeg)
 
 # define location for header files
 #target_include_directories(adpcm_ffmpeg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ffmpeg ${CMAKE_CURRENT_SOURCE_DIR}/src/ )
-add_subdirectory("src/adpcm-ffmpeg")
+add_subdirectory("src")
 add_subdirectory("test")
 
