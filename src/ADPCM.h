@@ -5,7 +5,7 @@
 #include "stddef.h"
 #include "vector"
 
-#define ADAPCM_DEFAULT_BLOCK_SIZE 256
+#define ADAPCM_DEFAULT_BLOCK_SIZE 128
 
 namespace adpcm_ffmpeg {
 
@@ -96,7 +96,7 @@ class ADPCMEncoder : public ADPCMCodec {
     int got_packet_ptr = 0;
     av_packet_data.resize(sampleCount);
     result.data = &av_packet_data[0];
-    std::fill(av_packet_data.begin(), av_packet_data.end(), 0);
+    //std::fill(av_packet_data.begin(), av_packet_data.end(), 0);
 
     int rc = adpcm_encode_frame(&avctx, &result, &frame, &got_packet_ptr);
     if (rc != 0 || !got_packet_ptr) {
@@ -174,11 +174,11 @@ class ADPCMDecoder : public ADPCMCodec {
     // frame.nb_samples = avctx.frame_size;
 
     // clear frame data result
-    std::fill(frame_data_vector.begin(), frame_data_vector.end(), 0);
-    std::fill(frame_extended_data_vector1.begin(),
-              frame_extended_data_vector1.end(), 0);
-    std::fill(frame_extended_data_vector2.begin(),
-              frame_extended_data_vector2.end(), 0);
+    // std::fill(frame_data_vector.begin(), frame_data_vector.end(), 0);
+    // std::fill(frame_extended_data_vector1.begin(),
+    //           frame_extended_data_vector1.end(), 0);
+    // std::fill(frame_extended_data_vector2.begin(),
+    //           frame_extended_data_vector2.end(), 0);
 
     int rc = adpcm_decode_frame(&avctx, &frame, &got_packet_ptr, &packet);
     if (rc == 0 || !got_packet_ptr) {
