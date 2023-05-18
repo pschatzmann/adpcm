@@ -10,17 +10,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "config-adpcm.h"
 #include "compat_public.h"
 
-// setting to 1 uses a decoder and encoder wav implementation that does 
-// not use any macros and thus can be debugged
-#define DEBUG 0
-
-#define AV_HAVE_BIGENDIAN 0
-#define CACHED_BITSTREAM_READER 0
-#define BITSTREAM_READER_LE 1
-#define BITSTREAM_WRITER_LE 1
 
 // define some qulifiers used by the code base
 #define av_cold
@@ -52,90 +44,11 @@ enum av_errors {
   ENOMEM
 };
 
-/**
- * @ingroup lavc_decoding
- * Required number of additionally allocated bytes at the end of the input
- * bitstream for decoding. This is mainly needed because some optimized
- * bitstream readers read 32 or 64 bit at once and could read over the end.<br>
- * Note: If the first 23 bits of the additional bytes are not 0, then damaged
- * MPEG bitstreams could cause overread and segfault.
- */
-#define AV_INPUT_BUFFER_PADDING_SIZE 64
-
 // Some define used by logging
 #define AV_LOG_ERROR 16
 #define AV_LOG_WARNING 24
 #define AV_LOG_INFO 32
 
-
-// activate the encoders & decoders
-#define CONFIG_ADPCM_4XM_DECODER 1
-#define CONFIG_ADPCM_ADX_DECODER 1
-#define CONFIG_ADPCM_ADX_ENCODER 1
-#define CONFIG_ADPCM_AFC_DECODER 1
-#define CONFIG_ADPCM_AGM_DECODER 1
-#define CONFIG_ADPCM_AICA_DECODER 1
-#define CONFIG_ADPCM_ARGO_DECODER 1
-#define CONFIG_ADPCM_ARGO_ENCODER 1
-#define CONFIG_ADPCM_CT_DECODER 1
-#define CONFIG_ADPCM_DTK_DECODER 1
-#define CONFIG_ADPCM_EA_DECODER 1
-#define CONFIG_ADPCM_EA_MAXIS_XA_DECODER 1
-#define CONFIG_ADPCM_EA_R1_DECODER 1
-#define CONFIG_ADPCM_EA_R2_DECODER 1
-#define CONFIG_ADPCM_EA_R3_DECODER 1
-#define CONFIG_ADPCM_EA_XAS_DECODER 1
-#define CONFIG_ADPCM_G722_DECODER 1
-#define CONFIG_ADPCM_G722_ENCODER 1
-#define CONFIG_ADPCM_G726_DECODER 1
-#define CONFIG_ADPCM_G726_ENCODER 1
-#define CONFIG_ADPCM_G726LE_DECODER 1
-#define CONFIG_ADPCM_G726LE_ENCODER 1
-#define CONFIG_ADPCM_IMA_ACORN_DECODER 1
-#define CONFIG_ADPCM_IMA_AMV_DECODER 1
-#define CONFIG_ADPCM_IMA_AMV_ENCODER 1
-#define CONFIG_ADPCM_IMA_ALP_DECODER 1
-#define CONFIG_ADPCM_IMA_ALP_ENCODER 1
-#define CONFIG_ADPCM_IMA_APC_DECODER 1
-#define CONFIG_ADPCM_IMA_APM_DECODER 1
-#define CONFIG_ADPCM_IMA_APM_ENCODER 1
-#define CONFIG_ADPCM_IMA_CUNNING_DECODER 1
-#define CONFIG_ADPCM_IMA_DAT4_DECODER 1
-#define CONFIG_ADPCM_IMA_DK3_DECODER 1
-#define CONFIG_ADPCM_IMA_DK4_DECODER 1
-#define CONFIG_ADPCM_IMA_EA_EACS_DECODER 1
-#define CONFIG_ADPCM_IMA_EA_SEAD_DECODER 1
-#define CONFIG_ADPCM_IMA_ISS_DECODER 1
-#define CONFIG_ADPCM_IMA_MOFLEX_DECODER 1
-#define CONFIG_ADPCM_IMA_MTF_DECODER 1
-#define CONFIG_ADPCM_IMA_OKI_DECODER 1
-#define CONFIG_ADPCM_IMA_QT_DECODER 1
-#define CONFIG_ADPCM_IMA_QT_ENCODER 1
-#define CONFIG_ADPCM_IMA_RAD_DECODER 1
-#define CONFIG_ADPCM_IMA_SSI_DECODER 1
-#define CONFIG_ADPCM_IMA_SSI_ENCODER 1
-#define CONFIG_ADPCM_IMA_SMJPEG_DECODER 1
-#define CONFIG_ADPCM_IMA_WAV_DECODER 1
-#define CONFIG_ADPCM_IMA_WAV_ENCODER 1
-#define CONFIG_ADPCM_IMA_WS_DECODER 1
-#define CONFIG_ADPCM_IMA_WS_ENCODER 1
-#define CONFIG_ADPCM_MS_DECODER 1
-#define CONFIG_ADPCM_MS_ENCODER 1
-#define CONFIG_ADPCM_MTAF_DECODER 1
-#define CONFIG_ADPCM_PSX_DECODER 1
-#define CONFIG_ADPCM_SBPRO_2_DECODER 1
-#define CONFIG_ADPCM_SBPRO_3_DECODER 1
-#define CONFIG_ADPCM_SBPRO_4_DECODER 1
-#define CONFIG_ADPCM_SWF_DECODER 1
-#define CONFIG_ADPCM_SWF_ENCODER 1
-#define CONFIG_ADPCM_THP_DECODER 1
-#define CONFIG_ADPCM_THP_LE_DECODER 1
-#define CONFIG_ADPCM_VIMA_DECODER 1
-#define CONFIG_ADPCM_XA_DECODER 1
-#define CONFIG_ADPCM_XMD_DECODER 1
-#define CONFIG_ADPCM_YAMAHA_DECODER 1
-#define CONFIG_ADPCM_YAMAHA_ENCODER 1
-#define CONFIG_ADPCM_ZORK_DECODER 1
 
 static av_always_inline av_const int av_clip(int a, int amin, int amax) {
 #if defined(HAVE_AV_CONFIG_H) && defined(ASSERT_LEVEL) && ASSERT_LEVEL >= 2

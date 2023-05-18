@@ -13,6 +13,10 @@ Therefore I decided to extract the FFmpeg implementation and provide it as a sta
 - [Decoder](https://pschatzmann.github.io/adpcm/docs/html/classadpcm__ffmpeg_1_1ADPCMDecoder.html)
 
 
+# Configuration
+
+I started with all codec variants activated. Unfortunatly this was causing that the ESP32 was running out of stack. I therfore have only activated the most important variants. For details see the config-adpcm.h file.
+
 # Usage
 
 This library can be used directly with cmake or as an Arduino library. However I recommend to use it as [Codec](https://github.com/pschatzmann/arduino-audio-tools/wiki/Encoding-and-Decoding-of-Audio) with the [Arduino Audio Tools](https://github.com/pschatzmann/arduino-audio-tools). 
