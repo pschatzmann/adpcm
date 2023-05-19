@@ -6,7 +6,7 @@ Unfortunately it is not standardized but there are many alternative implementati
 
 I was looking for a __complete__ ADPCM codec library that is suitable to be used on some microcontrollers and supports the most important implementations.
 
-The best implementation that I could find is provided by [FFmpeg](https://ffmpeg.org/) but unfortunately FFMpeg itself is unsuited for microcontrollers.
+The best implementation that I could find is provided by [FFmpeg](https://ffmpeg.org/) but unfortunately FFmpeg itself is unsuited for microcontrollers.
 
 Therefore I decided to extract the implementation and provide it as a stand alone libarary with a simple API.
 
