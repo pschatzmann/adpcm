@@ -1,8 +1,12 @@
 # ADPCM Library
 
-I was looking for a complete ADPCM codec library that is suitable to be used on some microcontrollers and supports the most important implementations.
+ADPCM (Adaptive Differential Pulse Code Modulation) is a __lossy codec__ with a good compression ratio and very low requirements in terms of memory and cpu for both the decoding and encoding. It is also purely based on integer arithemtic. It has lost it's imporance on the desktop, but it is still one of the best codec to be used on microcontrollers.
 
-The most complete implementation that I could find is provided by [FFmpeg](https://ffmpeg.org/) but unfortunately FFMpeg itself is unsuited for microcontrollers.
+Unfortunately it is not standardized but there are many alternative implementations which are incompatible between each other.
+
+I was looking for a __complete__ ADPCM codec library that is suitable to be used on some microcontrollers and supports the most important implementations.
+
+The best implementation that I could find is provided by [FFmpeg](https://ffmpeg.org/) but unfortunately FFMpeg itself is unsuited for microcontrollers.
 
 Therefore I decided to extract the implementation and provide it as a stand alone libarary with a simple API.
 
@@ -21,7 +25,7 @@ This library can be used directly with cmake or as an Arduino library. However I
 
 I started with all codec variants activated. This was working on the desktop but unfortunatly this was causing that microcontrollers like the ESP32 was running out of stack. 
 
-I therfore have only activated the most important variants and let is up to you to select additional variants. For details see the [config-adpcm.h](https://github.com/pschatzmann/adpcm/blob/main/src/adpcm-ffmpeg/config-adpcm.h) file.
+I therfore left only the most important variants activated and let it up to you to select additional variants. For details see the [config-adpcm.h](https://github.com/pschatzmann/adpcm/blob/main/src/adpcm-ffmpeg/config-adpcm.h) file.
 
 
 # Installation 
@@ -44,8 +48,6 @@ Just add this library to your platformio.ini. You can also activate or deactivat
 lib_deps = https://github.com/pschatzmann/adpcm
 build_flags = CONFIG_ADPCM_ARGO_DECODER=0
 ```
-
-
 
 ## CMake
 
