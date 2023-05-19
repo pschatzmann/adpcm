@@ -27,6 +27,13 @@ I started with all codec variants activated. This was working on the desktop but
 
 I therfore left only the most important variants activated and let it up to you to select additional variants. For details see the [config-adpcm.h](https://github.com/pschatzmann/adpcm/blob/main/src/adpcm-ffmpeg/config-adpcm.h) file.
 
+# Examples
+
+The following examples are encoding and decoding a sine tone:
+
+- [Arduino Audio Tools](https://github.com/pschatzmann/arduino-audio-tools/blob/main/examples/tests/codecs/test-codec-adpcm/test-codec-adpcm.ino) 
+- [CMake](https://github.com/pschatzmann/arduino-audio-tools/tree/main/tests-cmake/codec/adpcm)
+
 
 # Installation 
 
