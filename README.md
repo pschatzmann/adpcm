@@ -23,7 +23,7 @@ This library can be used directly with cmake or as an Arduino library. However I
 
 # Configuration
 
-I started with all codec variants activated. This was working on the desktop but unfortunatly this was causing that microcontrollers like the ESP32 was running out of stack. 
+I started with all [codec variants](https://pschatzmann.github.io/adpcm/docs/html/compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce) activated. This was working on the desktop but unfortunatly this was causing that microcontrollers like the ESP32 was running out of stack. 
 
 I therfore left only the most important variants activated and let it up to you to select additional variants. For details see the [config-adpcm.h](https://github.com/pschatzmann/adpcm/blob/main/src/adpcm-ffmpeg/config-adpcm.h) file.
 
