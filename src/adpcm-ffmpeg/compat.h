@@ -219,10 +219,6 @@ static void avpriv_request_sample(void *avc, const char *msg, ...) {
 
 #define av_log(A, B, ...) printf(__VA_ARGS__);
 
-static int av_get_exact_bits_per_sample(enum AVCodecID codec_id) {
-  switch (codec_id) {}
-}
-
 
 #define NEG_USR32 NEG_USR32
 static inline uint32_t NEG_USR32(uint32_t a, int8_t s) {

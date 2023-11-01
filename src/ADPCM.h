@@ -7,6 +7,10 @@
 
 #define ADAPCM_DEFAULT_BLOCK_SIZE 128
 
+#pragma GCC diagnostic ignored "-Wcomment"
+#pragma GCC diagnostic ignored "-Wsign-compare"
+
+
 namespace adpcm_ffmpeg {
 
 /**
