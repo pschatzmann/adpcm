@@ -51,9 +51,9 @@ enum av_errors {
 
 
 static av_always_inline av_const int av_clip(int a, int amin, int amax) {
-#if defined(HAVE_AV_CONFIG_H) && defined(ASSERT_LEVEL) && ASSERT_LEVEL >= 2
-  if (amin > amax) abort();
-#endif
+//#if defined(HAVE_AV_CONFIG_H) && defined(ASSERT_LEVEL) && ASSERT_LEVEL >= 2
+  assert (amin <= amax) ;
+//#endif
   if (a < amin)
     return amin;
   else if (a > amax)

@@ -174,27 +174,30 @@ class ADPCMDecoder : public ADPCMCodec {
 
   AVFrame &decode(AVPacket &packet) {
     int got_packet_ptr = 0;
-    // frame.nb_samples = avctx.frame_size;
+    //frame.nb_samples = avctx.frame_size;
 
-    // clear frame data result
-    // std::fill(frame_data_vector.begin(), frame_data_vector.end(), 0);
-    // std::fill(frame_extended_data_vector1.begin(),
-    //           frame_extended_data_vector1.end(), 0);
-    // std::fill(frame_extended_data_vector2.begin(),
-    //           frame_extended_data_vector2.end(), 0);
+    //clear frame data result
+    std::fill(frame_data_vector.begin(), frame_data_vector.end(), 0);
+    std::fill(frame_extended_data_vector1.begin(),
+              frame_extended_data_vector1.end(), 0);
+    std::fill(frame_extended_data_vector2.begin(),
+              frame_extended_data_vector2.end(), 0);
 
     int rc = adpcm_decode_frame(&avctx, &frame, &got_packet_ptr, &packet);
     if (rc == 0 || !got_packet_ptr) {
       frame.nb_samples = 0;
     }
 
-    int16_t *result16 = (int16_t *)frame.data[0];
-    int pos = 0;
-    for (int j = 0; j < frame.nb_samples; j++) {
-      for (int ch = 0; ch < avctx.nb_channels; ch++) {
-        result16[pos++] = frame.extended_data[ch][j];
+    if (!hasFrameData((int16_t*)(frame.data[0]), frame.extended_data[0], frame.nb_samples)){
+      int16_t *result16 = (int16_t *)frame.data[0];
+      int pos = 0;
+      for (int j = 0; j < frame.nb_samples; j++) {
+        for (int ch = 0; ch < avctx.nb_channels; ch++) {
+          result16[pos++] = frame.extended_data[ch][j];
+        }
       }
     }
+
 
     return frame;
   }
@@ -207,6 +210,17 @@ class ADPCMDecoder : public ADPCMCodec {
   std::vector<int16_t> frame_extended_data_vector2;
   int16_t *extended_data[2] = {NULL};
   uint8_t *data[AV_NUM_DATA_POINTERS] = {NULL};
+
+  /// The result is not returned consistently: sometimes it is in the frame data,
+  /// sometimes it is in the extra data. Here we check where it actually is!
+  bool hasFrameData(int16_t* frame_data,int16_t* ext_data, int len){
+    for (int j=0;j<len;j++){
+      if (data[j]!=0) return true;
+      if (ext_data[j]!=0) return false;
+    }
+    return false;
+  }
+
 };
 
 }  // namespace adpcm_ffmpeg
