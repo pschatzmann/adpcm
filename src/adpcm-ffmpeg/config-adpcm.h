@@ -1,7 +1,7 @@
 #pragma once
 
 // setting to 1 uses a ima wav decoder and encoder that does not use any macros and thus can be debugged
-#  define DEBUG 0
+#  define DEBUG 1
 
 #  define AV_HAVE_BIGENDIAN 0
 #  define CACHED_BITSTREAM_READER 0

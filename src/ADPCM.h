@@ -133,7 +133,7 @@ class ADPCMDecoder : public ADPCMCodec {
     avctx.priv_data = (uint8_t *)&enc_ctx;
   }
 
-  ADPCMDecoder(AVCodecID id, int blockSize = 256) : ADPCMCodec() {
+  ADPCMDecoder(AVCodecID id, int blockSize = ADAPCM_DEFAULT_BLOCK_SIZE) : ADPCMCodec() {
     setCodecID(id);
     setBlockSize(blockSize);
     avctx.bits_per_coded_sample = av_get_bits_per_sample(id);
@@ -162,7 +162,6 @@ class ADPCMDecoder : public ADPCMCodec {
     frame.extended_data = extended_data;
     // set result samples
     return adpcm_decode_init(&avctx) == 0;
-    ;
   }
 
   void end() { adpcm_flush(&avctx); }
