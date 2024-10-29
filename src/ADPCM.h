@@ -181,7 +181,6 @@ class ADPCMDecoder : public ADPCMCodec {
 
   AVFrame &decode(AVPacket &packet) {
     int got_packet_ptr = 0;
-    // frame.nb_samples = avctx.frame_size;
 
     // clear frame data result
     if (data_source == Undefined) {
