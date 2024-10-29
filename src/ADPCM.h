@@ -10,7 +10,6 @@
 #pragma GCC diagnostic ignored "-Wcomment"
 #pragma GCC diagnostic ignored "-Wsign-compare"
 
-
 namespace adpcm_ffmpeg {
 
 /**
@@ -100,7 +99,7 @@ class ADPCMEncoder : public ADPCMCodec {
     int got_packet_ptr = 0;
     av_packet_data.resize(sampleCount);
     result.data = &av_packet_data[0];
-    //std::fill(av_packet_data.begin(), av_packet_data.end(), 0);
+    // std::fill(av_packet_data.begin(), av_packet_data.end(), 0);
 
     int rc = adpcm_encode_frame(&avctx, &result, &frame, &got_packet_ptr);
     if (rc != 0 || !got_packet_ptr) {
@@ -133,7 +132,8 @@ class ADPCMDecoder : public ADPCMCodec {
     avctx.priv_data = (uint8_t *)&enc_ctx;
   }
 
-  ADPCMDecoder(AVCodecID id, int blockSize = ADAPCM_DEFAULT_BLOCK_SIZE) : ADPCMCodec() {
+  ADPCMDecoder(AVCodecID id, int blockSize = ADAPCM_DEFAULT_BLOCK_SIZE)
+      : ADPCMCodec() {
     setCodecID(id);
     setBlockSize(blockSize);
     avctx.bits_per_coded_sample = av_get_bits_per_sample(id);
@@ -143,6 +143,7 @@ class ADPCMDecoder : public ADPCMCodec {
   bool begin(int sampleRate, int channels) {
     avctx.sample_rate = sampleRate;
     avctx.nb_channels = channels;
+    data_source = Undefined;
     // determine frame size
     adpcm_encode_init(&avctx);
     int frame_size = frameSize();
@@ -164,7 +165,13 @@ class ADPCMDecoder : public ADPCMCodec {
     return adpcm_decode_init(&avctx) == 0;
   }
 
-  void end() { adpcm_flush(&avctx); }
+  void end() {
+    adpcm_flush(&avctx);
+    // release memory
+    frame_data_vector.resize(0);
+    frame_extended_data_vector1.resize(0);
+    frame_extended_data_vector2.resize(0);
+  }
 
   AVFrame &decode(uint8_t *data, size_t size) {
     packet.size = size;
@@ -174,21 +181,31 @@ class ADPCMDecoder : public ADPCMCodec {
 
   AVFrame &decode(AVPacket &packet) {
     int got_packet_ptr = 0;
-    //frame.nb_samples = avctx.frame_size;
+    // frame.nb_samples = avctx.frame_size;
 
-    //clear frame data result
-    std::fill(frame_data_vector.begin(), frame_data_vector.end(), 0);
-    std::fill(frame_extended_data_vector1.begin(),
-              frame_extended_data_vector1.end(), 0);
-    std::fill(frame_extended_data_vector2.begin(),
-              frame_extended_data_vector2.end(), 0);
+    // clear frame data result
+    if (data_source == Undefined) {
+      // just reset the data, for the subsequent source determination
+      std::fill(frame_data_vector.begin(), frame_data_vector.end(), 0);
+      std::fill(frame_extended_data_vector1.begin(),
+                frame_extended_data_vector1.end(), 0);
+      std::fill(frame_extended_data_vector2.begin(),
+                frame_extended_data_vector2.end(), 0);
+    }
 
     int rc = adpcm_decode_frame(&avctx, &frame, &got_packet_ptr, &packet);
     if (rc == 0 || !got_packet_ptr) {
       frame.nb_samples = 0;
     }
 
-    if (!hasFrameData((int16_t*)(frame.data[0]), frame.extended_data[0], frame.nb_samples)){
+    /// determine data source: only once
+    if (data_source == Undefined) {
+      data_source = getDataSource((int16_t *)(frame.data[0]),
+                                  frame.extended_data[0], frame.nb_samples);
+    }
+
+    // if data is in exended data, we copy it to the frame_data
+    if (data_source == FromExtended) {
       int16_t *result16 = (int16_t *)frame.data[0];
       int pos = 0;
       for (int j = 0; j < frame.nb_samples; j++) {
@@ -198,29 +215,31 @@ class ADPCMDecoder : public ADPCMCodec {
       }
     }
 
-
     return frame;
   }
 
  protected:
+  enum DataSource { Undefined, FromFrame, FromExtended };
   AVPacket packet;
   AVFrame frame;
+  DataSource data_source = Undefined;
+  bool is_frame_data = true;
   std::vector<int16_t> frame_data_vector;
   std::vector<int16_t> frame_extended_data_vector1;
   std::vector<int16_t> frame_extended_data_vector2;
   int16_t *extended_data[2] = {NULL};
   uint8_t *data[AV_NUM_DATA_POINTERS] = {NULL};
 
-  /// The result is not returned consistently: sometimes it is in the frame data,
-  /// sometimes it is in the extra data. Here we check where it actually is!
-  bool hasFrameData(int16_t* frame_data,int16_t* ext_data, int len){
-    for (int j=0;j<len;j++){
-      if (data[j]!=0) return true;
-      if (ext_data[j]!=0) return false;
+  /// The result is not returned consistently: sometimes it is in the frame
+  /// data, sometimes it is in the extra data. Here we check where it actually
+  /// is!
+  DataSource getDataSource(int16_t *frame_data, int16_t *ext_data, int len) {
+    for (int j = 0; j < len; j++) {
+      if (data[j] != 0) return FromFrame;
+      if (ext_data[j] != 0) return FromExtended;
     }
-    return false;
+    return FromFrame;
   }
-
 };
 
 }  // namespace adpcm_ffmpeg

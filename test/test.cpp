@@ -13,7 +13,7 @@
 
 using namespace std;
 using namespace adpcm_ffmpeg;
-AVCodecID code = AV_CODEC_ID_ADPCM_IMA_WAV; //AV_CODEC_ID_ADPCM_MS; // AV_CODEC_ID_ADPCM_IMA_WAV
+AVCodecID code = AV_CODEC_ID_ADPCM_MS; //AV_CODEC_ID_ADPCM_MS; // AV_CODEC_ID_ADPCM_IMA_WAV
 ADPCMDecoder decoder{code};
 ADPCMEncoder encoder{code};
 vector<int16_t> frame_vector;
