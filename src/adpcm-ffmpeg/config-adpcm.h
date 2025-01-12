@@ -21,8 +21,10 @@
  */
 #define AV_INPUT_BUFFER_PADDING_SIZE 64
 
-/// The 
+/// The AV_CODEC_ID_ADPCM_IMA_QT seems to be broken, so we deactivate it
 #define ENABLE_BROKEN_CODECS true
 
+/// Automatic name space support
+#define ADPCM_ADD_NAMESPACE false
 
 

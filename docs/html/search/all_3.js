@@ -11,6 +11,6 @@ var searchData=
   ['encoderadpcm_5fms_76',['EncoderADPCM_MS',['../classadpcm__ffmpeg_1_1EncoderADPCM__MS.html',1,'adpcm_ffmpeg']]],
   ['encoderadpcm_5fswf_77',['EncoderADPCM_SWF',['../classadpcm__ffmpeg_1_1EncoderADPCM__SWF.html',1,'adpcm_ffmpeg']]],
   ['encoderadpcm_5fyamaha_78',['EncoderADPCM_YAMAHA',['../classadpcm__ffmpeg_1_1EncoderADPCM__YAMAHA.html',1,'adpcm_ffmpeg']]],
-  ['encoderfactory_79',['EncoderFactory',['../classadpcm__ffmpeg_1_1EncoderFactory.html',1,'adpcm_ffmpeg']]],
+  ['encoderfactory_79',['ADPCMEncoderFactory',['../classadpcm__ffmpeg_1_1ADPCMEncoderFactory.html',1,'adpcm_ffmpeg']]],
   ['extended_5fdata_80',['extended_data',['../structadpcm__ffmpeg_1_1AVFrame.html#a3c3354d022413e4e138183e45b3b8501',1,'adpcm_ffmpeg::AVFrame']]]
 ];

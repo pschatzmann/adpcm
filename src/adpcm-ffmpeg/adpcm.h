@@ -38,15 +38,6 @@
 
 #define AV_NUM_DATA_POINTERS 8
 
-namespace adpcm_ffmpeg {
-
-
-enum av_errors {
-  AV_OK = 0,
-  AVERROR_INVALIDDATA,
-  AVERROR_PATCHWELCOME,
-};
-
 /**
  * @brief Supported Codec IDs
  * @enum Supported Codec IDs
@@ -106,6 +97,15 @@ enum AVCodecID {
   AV_CODEC_ID_ADPCM_IMA_ACORN,         ///< ACORN
   AV_CODEC_ID_ADPCM_XMD,               ///< XMD
 };
+
+namespace adpcm_ffmpeg {
+
+enum av_errors {
+  AV_OK = 0,
+  AVERROR_INVALIDDATA,
+  AVERROR_PATCHWELCOME,
+};
+
 
 enum AVChannelLayout {
   AV_CHANNEL_LAYOUT_MONO,    ///< mono: 1 channel

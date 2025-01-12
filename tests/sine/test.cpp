@@ -64,8 +64,8 @@ int checkFrameSize(ADPCMDecoder &decoder, ADPCMEncoder &encoder) {
 
 void test(AVCodecID id, const char *title) {
   cout << title << "\n";
-  ADPCMDecoder& decoder = *DecoderFactory::create(id);
-  ADPCMEncoder& encoder = *EncoderFactory::create(id);
+  ADPCMDecoder& decoder = *ADPCMDecoderFactory::create(id);
+  ADPCMEncoder& encoder = *ADPCMEncoderFactory::create(id);
 
   assert(&decoder != nullptr);
   assert(&encoder != nullptr);
