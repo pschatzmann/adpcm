@@ -8,7 +8,7 @@ I was looking for a __complete__ ADPCM codec library that is suitable to be used
 
 The best implementation that I could find is provided by [FFmpeg](https://ffmpeg.org/) but unfortunately FFmpeg itself is unsuited for microcontrollers.
 
-Therefore I decided to extract the implementation and provide it as a stand alone libarary with a simple API.
+Therefore I decided to extract the implementation and provide it as a stand alone libarary with a simple API and provide the functionality as header only C++ implementation.
 
 # Usage
 
@@ -53,7 +53,6 @@ I recommend to use git because you can easily update to the latest version just 
 Just add this library to your platformio.ini. You can also activate or deactivate individual encoders and decoders
 ```
 lib_deps = https://github.com/pschatzmann/adpcm
-build_flags = CONFIG_ADPCM_ARGO_DECODER=0
 ```
 
 ## CMake

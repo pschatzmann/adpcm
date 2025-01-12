@@ -1,5 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classadpcm__ffmpeg_1_1ADPCMCodec.html" title="Common ADPCM Functionality." alt="" coords="5,31,220,57"/>
-<area shape="rect" id="node2" href="$classadpcm__ffmpeg_1_1ADPCMDecoder.html" title="ADPCM Decoder." alt="" coords="268,5,497,32"/>
-<area shape="rect" id="node3" href="$classadpcm__ffmpeg_1_1ADPCMEncoder.html" title="ADPCM Encoder." alt="" coords="269,56,496,83"/>
+<area shape="rect" id="node1" href="$structadpcm__ffmpeg_1_1ADPCMChannelStatus.html" title=" " alt="" coords="5,5,233,47"/>
 </map>

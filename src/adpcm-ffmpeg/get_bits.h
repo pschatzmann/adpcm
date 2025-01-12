@@ -23,19 +23,13 @@
  * bitstream reader API header.
  */
 
-#ifndef AVCODEC_GET_BITS_H
-#define AVCODEC_GET_BITS_H
-
+#pragma once
 #include <stdint.h>
-#include "compat.h"
-
-// #include "libavutil/common.h"
+#include "config-adpcm.h"
 #include "intreadwrite.h"
-// #include "libavutil/avassert.h"
+#include "adpcm.h"
 
-// #include "defs.h"
-// #include "mathops.h"
-// #include "vlc.h"
+namespace adpcm_ffmpeg {
 
 /*
  * Safe bitstream reading:
@@ -74,8 +68,6 @@
 #undef BITSTREAM_BE
 #undef BITSTREAM_DEFAULT_BE
 
-typedef BitstreamContext GetBitContext;
-
 #define get_bits_count      bits_tell
 #define get_bits_left       bits_left
 #define skip_bits_long      bits_skip
@@ -105,16 +97,13 @@ typedef BitstreamContext GetBitContext;
 
 #else   // CACHED_BITSTREAM_READER
 
-typedef struct GetBitContext {
+struct GetBitContext {
     const uint8_t *buffer, *buffer_end;
     int index;
     int size_in_bits;
     int size_in_bits_plus8;
-} GetBitContext;
+};
 
-static inline unsigned int get_bits(GetBitContext *s, int n);
-static inline void skip_bits(GetBitContext *s, int n);
-static inline unsigned int show_bits(GetBitContext *s, int n);
 
 /* Bitstream reader API docs:
  * name
@@ -282,8 +271,8 @@ static inline void skip_bits_long(GetBitContext *s, int n)
  */
 static inline int get_xbits(GetBitContext *s, int n)
 {
-    register int sign;
-    register int32_t cache;
+     int sign;
+     int32_t cache;
     OPEN_READER(re, s);
     av_assert(n>0 && n<=25);
     UPDATE_CACHE(re, s);
@@ -296,8 +285,8 @@ static inline int get_xbits(GetBitContext *s, int n)
 
 static inline int get_xbits_le(GetBitContext *s, int n)
 {
-    register int sign;
-    register int32_t cache;
+     int sign;
+     int32_t cache;
     OPEN_READER(re, s);
     av_assert(n>0 && n<=25);
     UPDATE_CACHE_LE(re, s);
@@ -310,7 +299,7 @@ static inline int get_xbits_le(GetBitContext *s, int n)
 
 static inline int get_sbits(GetBitContext *s, int n)
 {
-    register int tmp;
+     int tmp;
     OPEN_READER(re, s);
     av_assert(n>0 && n<=25);
     UPDATE_CACHE(re, s);
@@ -323,9 +312,9 @@ static inline int get_sbits(GetBitContext *s, int n)
 /**
  * Read 1-25 bits.
  */
-static inline unsigned int get_bits(GetBitContext *s, int n)
+static unsigned int get_bits(GetBitContext *s, int n)
 {
-    register unsigned int tmp;
+     unsigned int tmp;
     OPEN_READER(re, s);
     av_assert(n>0 && n<=25);
     UPDATE_CACHE(re, s);
@@ -346,7 +335,7 @@ static av_always_inline int get_bitsz(GetBitContext *s, int n)
 
 static inline unsigned int get_bits_le(GetBitContext *s, int n)
 {
-    register int tmp;
+     int tmp;
     OPEN_READER(re, s);
     av_assert(n>0 && n<=25);
     UPDATE_CACHE_LE(re, s);
@@ -361,7 +350,7 @@ static inline unsigned int get_bits_le(GetBitContext *s, int n)
  */
 static inline unsigned int show_bits(GetBitContext *s, int n)
 {
-    register unsigned int tmp;
+     unsigned int tmp;
     OPEN_READER_NOSIZE(re, s);
     av_assert(n>0 && n<=25);
     UPDATE_CACHE(re, s);
@@ -683,4 +672,5 @@ static inline int skip_1stop_8data_bits(GetBitContext *gb)
 
 #endif // CACHED_BITSTREAM_READER
 
-#endif /* AVCODEC_GET_BITS_H */
+}
+
