@@ -23,12 +23,10 @@
  * byte swapping routines
  */
 
-#ifndef AVUTIL_BSWAP_H
-#define AVUTIL_BSWAP_H
+#pragma once
 
 #include <stdint.h>
-//#include "libavutil/avconfig.h"
-//#include "attributes.h"
+#include "config-adpcm.h"
 
 #ifdef HAVE_AV_CONFIG_H
 
@@ -55,6 +53,9 @@
 #define AV_BSWAP64C(x) (AV_BSWAP32C(x) << 32 | AV_BSWAP32C((x) >> 32))
 
 #define AV_BSWAPC(s, x) AV_BSWAP##s##C(x)
+
+namespace adpcm_ffmpeg {
+
 
 #ifndef av_bswap16
 static av_always_inline av_const uint16_t av_bswap16(uint16_t x)
@@ -108,4 +109,4 @@ static inline uint64_t av_const av_bswap64(uint64_t x)
 #define AV_LE2NE32C(x) AV_LE2NEC(32, x)
 #define AV_LE2NE64C(x) AV_LE2NEC(64, x)
 
-#endif /* AVUTIL_BSWAP_H */
+}

@@ -23,16 +23,17 @@
  * bitstream writer API
  */
 
-#ifndef AVCODEC_PUT_BITS_H
-#define AVCODEC_PUT_BITS_H
+#pragma once
 
 #include <stdint.h>
 #include <stddef.h>
 
-#include "compat.h"
+#include "config-adpcm.h"
 #include "intreadwrite.h"
-//#include "libavutil/avassert.h"
-//#include "libavutil/common.h"
+#include "adpcm.h"
+
+namespace adpcm_ffmpeg {
+
 
 #if ARCH_X86_64
 // TODO: Benchmark and optionally enable on other 64-bit architectures.
@@ -425,4 +426,4 @@ static inline void align_put_bits(PutBitContext *s)
 #undef AV_WBBUF
 #undef AV_WLBUF
 
-#endif /* AVCODEC_PUT_BITS_H */
+}

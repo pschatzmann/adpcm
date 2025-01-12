@@ -862,9 +862,9 @@ WARN_LOGFILE           =
 # documented source files. You may enter file names like myfile.cpp or
 # directories like /usr/src/myproject. Separate the files or directories with
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
-# Note: If this tag is empty the current directory is searched.
+# Note: If this tag is empty the current directosrc/adpcm-ffmpegry is searched.
 
-INPUT                  = README.md src/ADPCM.h src/adpcm-ffmpeg/adpcm_public.h src/adpcm-ffmpeg/compat_public.h
+INPUT                  = README.md src src/adpcm-ffmpeg
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nb_5fsamples_91',['nb_samples',['../structAVFrame.html#a02f45ab8191aea1660159f1e464237ea',1,'AVFrame']]]
+  ['has_5fstatus_88',['has_status',['../structadpcm__ffmpeg_1_1ADPCMDecodeContext.html#aa01062018257e075fb41c51510073ec8',1,'adpcm_ffmpeg::ADPCMDecodeContext']]]
 ];
