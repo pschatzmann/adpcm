@@ -1120,7 +1120,7 @@ class EncoderADPCM_IMA_WS : public ADPCMEncoder {
   }
 };
 
-class EncoderFactory {
+class ADPCMEncoderFactory {
  public:
   static ADPCMEncoder *create(AVCodecID id) {
     switch (id) {

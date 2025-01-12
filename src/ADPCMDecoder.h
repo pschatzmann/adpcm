@@ -35,7 +35,7 @@ class ADPCMDecoder : public ADPCMCodec {
     // if frame size has not been defined, get it from encoder
     int frame_size = frameSize();
     if (frame_size == 0) {
-      ADPCMEncoder &enc = *EncoderFactory::create(codecID());
+      ADPCMEncoder &enc = *ADPCMEncoderFactory::create(codecID());
       enc.begin(sampleRate, channels);
       setFrameSize(enc.frameSize());
       setBlockSize(enc.blockSize());
@@ -2655,7 +2655,7 @@ class DecoderADPCM_EA_R3 : public DecoderADPCM_EA_RX {
   DecoderADPCM_EA_R3() : DecoderADPCM_EA_RX(AV_CODEC_ID_ADPCM_EA_R3) {}
 };
 
-class DecoderFactory {
+class ADPCMDecoderFactory {
  public:
   static ADPCMDecoder *create(AVCodecID id) {
     switch (id) {

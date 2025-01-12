@@ -49,5 +49,5 @@ var searchData=
   ['decoderadpcm_5fxmd_152',['DecoderADPCM_XMD',['../classadpcm__ffmpeg_1_1DecoderADPCM__XMD.html',1,'adpcm_ffmpeg']]],
   ['decoderadpcm_5fyamaha_153',['DecoderADPCM_YAMAHA',['../classadpcm__ffmpeg_1_1DecoderADPCM__YAMAHA.html',1,'adpcm_ffmpeg']]],
   ['decoderadpcm_5fzork_154',['DecoderADPCM_ZORK',['../classadpcm__ffmpeg_1_1DecoderADPCM__ZORK.html',1,'adpcm_ffmpeg']]],
-  ['decoderfactory_155',['DecoderFactory',['../classadpcm__ffmpeg_1_1DecoderFactory.html',1,'adpcm_ffmpeg']]]
+  ['decoderfactory_155',['ADPCMDecoderFactory',['../classadpcm__ffmpeg_1_1ADPCMDecoderFactory.html',1,'adpcm_ffmpeg']]]
 ];
