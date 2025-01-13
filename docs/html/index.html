@@ -80,28 +80,24 @@ Class Documentation</h1>
 <li><a href="https://pschatzmann.github.io/adpcm/docs/html/classadpcm__ffmpeg_1_1ADPCMDecoder.html">Decoder</a></li>
 </ul>
 <h1><a class="anchor" id="autotoc_md3"></a>
-Configuration</h1>
-<p>I started with all <a href="https://pschatzmann.github.io/adpcm/docs/html/compat__public_8h.html#aadca229ad2c20e060a14fec08a5cc7ce">codec variants</a> activated. This was working on the desktop but unfortunatly this was causing that microcontrollers like the ESP32 was running out of stack.</p>
-<p>I therfore left only the most important variants activated and let it up to you to select additional variants. For details see the <a href="https://github.com/pschatzmann/adpcm/blob/main/src/adpcm-ffmpeg/config-adpcm.h">config-adpcm.h</a> file.</p>
-<h1><a class="anchor" id="autotoc_md4"></a>
 Examples</h1>
 <p>The following examples are encoding and decoding a sine tone:</p>
 <ul>
 <li><a href="https://github.com/pschatzmann/arduino-audio-tools/blob/main/examples/tests/codecs/test-codec-adpcm/test-codec-adpcm.ino">Arduino Audio Tools</a></li>
 <li><a href="https://github.com/pschatzmann/arduino-audio-tools/tree/main/tests-cmake/codec/adpcm">CMake</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Installation</h1>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Arduino</h2>
 <p>You can download the library as zip and call include Library -&gt; zip library. Or you can git clone this project into the Arduino libraries folder e.g. with</p>
 <div class="fragment"><div class="line">cd  ~/Documents/Arduino/libraries</div>
 <div class="line">git clone https://github.com/pschatzmann/adpcm</div>
 </div><!-- fragment --><p>I recommend to use git because you can easily update to the latest version just by executing the git pull command in the project folder. If you want to use the library in PlatformIO, you can find a detailed description in the Wiki.</p>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 PlatformIO</h2>
 <p>Just add this library to your platformio.ini. You can also activate or deactivate individual encoders and decoders </p><div class="fragment"><div class="line">lib_deps = https://github.com/pschatzmann/adpcm</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
 CMake</h2>
 <p>You can install this library directly from gihub in your CMakeLists.txt</p>
 <div class="fragment"><div class="line">project(your-target)</div>
