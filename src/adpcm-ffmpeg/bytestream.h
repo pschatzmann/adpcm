@@ -207,7 +207,7 @@ static av_always_inline int bytestream2_seek(GetByteContext *g, int offset,
       g->buffer = g->buffer_start + offset;
       break;
     default:
-      return AVERROR(EINVAL);
+      return AVERROR(AVERROR_INVALID);
   }
   return bytestream2_tell(g);
 }
@@ -233,7 +233,7 @@ static av_always_inline int bytestream2_seek_p(PutByteContext *p, int offset,
       p->buffer = p->buffer_start + offset;
       break;
     default:
-      return AVERROR(EINVAL);
+      return AVERROR(AVERROR_INVALID);
   }
   return bytestream2_tell_p(p);
 }

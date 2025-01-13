@@ -171,7 +171,7 @@ $(function() {
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        (s-&gt;block_size &amp; (s-&gt;block_size - 1))) {</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      av_log(avctx, AV_LOG_ERROR, <span class="stringliteral">&quot;block size must be power of 2: %d\n&quot;</span>,</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;             s-&gt;block_size);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keywordflow">return</span> AVERROR(EINVAL);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keywordflow">return</span> AVERROR(AVERROR_INVALID);</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span> (avctx.trellis) {</div>
@@ -179,7 +179,7 @@ $(function() {
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      <span class="keywordflow">if</span> ((<span class="keywordtype">unsigned</span>)avctx.trellis &gt; 16U) {</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        av_log(avctx, AV_LOG_ERROR, <span class="stringliteral">&quot;invalid trellis size\n&quot;</span>);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">return</span> AVERROR(EINVAL);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">return</span> AVERROR(AVERROR_INVALID);</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      }</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      <span class="keywordflow">if</span> (avctx.codec_id == AV_CODEC_ID_ADPCM_IMA_SSI ||</div>
@@ -200,7 +200,7 @@ $(function() {
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;          !FF_ALLOC_TYPED_ARRAY(<a class="code" href="structadpcm__ffmpeg_1_1TrellisNode.html">TrellisNode</a> *, s-&gt;node_buf, 2 * frontier) ||</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;          !FF_ALLOC_TYPED_ARRAY(<a class="code" href="structadpcm__ffmpeg_1_1TrellisNode.html">TrellisNode</a> **, s-&gt;nodep_buf, 2 * frontier) ||</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;          !FF_ALLOC_TYPED_ARRAY(uint8_t *, s-&gt;trellis_hash, 65536))</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordflow">return</span> AVERROR(ENOMEM);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordflow">return</span> AVERROR(AVERROR_MEMORY);</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    avctx.bits_per_coded_sample = av_get_bits_per_sample();</div>
@@ -581,7 +581,7 @@ $(function() {
 <div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    <span class="keywordflow">if</span> (avctx.trellis &gt; 0) {</div>
 <div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;      uint8_t *buf;</div>
 <div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;      <span class="keywordflow">if</span> (!FF_ALLOC_TYPED_ARRAY(uint8_t *, buf, channels *blocks * 8))</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;        <span class="keywordflow">return</span> AVERROR(ENOMEM);</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;        <span class="keywordflow">return</span> AVERROR(AVERROR_MEMORY);</div>
 <div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">int</span> ch = 0; ch &lt; channels; ch++) {</div>
 <div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;        adpcm_compress_trellis(&amp;samples_p[ch][1], buf + ch * blocks * 8,</div>
 <div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;                               &amp;c-&gt;status[ch], blocks * 8, 1);</div>
@@ -751,7 +751,7 @@ $(function() {
 <div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;    avctx.<a class="code" href="structadpcm__ffmpeg_1_1AVCodecContext.html#af5dec9ff91837cf878e67b00b4235c4d">block_align</a> = s-&gt;block_size;</div>
 <div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;    <span class="keywordflow">if</span> (!(avctx.extradata =</div>
 <div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;              (uint8_t *)av_malloc(32 + AV_INPUT_BUFFER_PADDING_SIZE)))</div>
-<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;      <span class="keywordflow">return</span> AVERROR(ENOMEM);</div>
+<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;      <span class="keywordflow">return</span> AVERROR(AVERROR_MEMORY);</div>
 <div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;    avctx.extradata_size = 32;</div>
 <div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;    extradata = avctx.extradata;</div>
 <div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;    bytestream_put_le16(&amp;extradata, avctx.<a class="code" href="structadpcm__ffmpeg_1_1AVCodecContext.html#a8fa831a6b091288b3e02b87c738d3175">frame_size</a>);</div>
@@ -813,7 +813,7 @@ $(function() {
 <div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;    <span class="keywordflow">if</span> (avctx.trellis &gt; 0) {</div>
 <div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">int</span> n = avctx.<a class="code" href="structadpcm__ffmpeg_1_1AVCodecContext.html#af5dec9ff91837cf878e67b00b4235c4d">block_align</a> - 7 * channels;</div>
 <div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;      uint8_t *buf = (uint8_t *)av_malloc(2 * n);</div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;      <span class="keywordflow">if</span> (!buf) <span class="keywordflow">return</span> AVERROR(ENOMEM);</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;      <span class="keywordflow">if</span> (!buf) <span class="keywordflow">return</span> AVERROR(AVERROR_MEMORY);</div>
 <div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;      <span class="keywordflow">if</span> (channels == 1) {</div>
 <div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;        adpcm_compress_trellis(samples, buf, &amp;c-&gt;status[0], n, channels);</div>
 <div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i += 2) *dst++ = (buf[i] &lt;&lt; 4) | buf[i + 1];</div>
@@ -848,7 +848,7 @@ $(function() {
 <div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160;      av_log(avctx, AV_LOG_ERROR,</div>
 <div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;             <span class="stringliteral">&quot;Sample rate must be 11025, &quot;</span></div>
 <div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;             <span class="stringliteral">&quot;22050 or 44100\n&quot;</span>);</div>
-<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;      <span class="keywordflow">return</span> AVERROR(EINVAL);</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;      <span class="keywordflow">return</span> AVERROR(AVERROR_INVALID);</div>
 <div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;    }</div>
 <div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;    avctx.<a class="code" href="structadpcm__ffmpeg_1_1AVCodecContext.html#a8fa831a6b091288b3e02b87c738d3175">frame_size</a> = 4096; <span class="comment">/* Hardcoded according to the SWF spec. */</span></div>
 <div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;    avctx.<a class="code" href="structadpcm__ffmpeg_1_1AVCodecContext.html#af5dec9ff91837cf878e67b00b4235c4d">block_align</a> =</div>
@@ -921,7 +921,7 @@ $(function() {
 <div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;    <span class="keywordtype">int</span> n = frame-&gt;<a class="code" href="structadpcm__ffmpeg_1_1AVFrame.html#a7a37e7d97d6db735442e2fd7a0c0085c">nb_samples</a> / 2;</div>
 <div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;    <span class="keywordflow">if</span> (avctx.trellis &gt; 0) {</div>
 <div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;      uint8_t *buf = (uint8_t *)av_malloc(2 * n * 2);</div>
-<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;      <span class="keywordflow">if</span> (!buf) <span class="keywordflow">return</span> AVERROR(ENOMEM);</div>
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;      <span class="keywordflow">if</span> (!buf) <span class="keywordflow">return</span> AVERROR(AVERROR_MEMORY);</div>
 <div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;      n *= 2;</div>
 <div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;      <span class="keywordflow">if</span> (channels == 1) {</div>
 <div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;        adpcm_compress_trellis(samples, buf, &amp;c-&gt;status[0], n, channels);</div>
@@ -956,7 +956,7 @@ $(function() {
 <div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160; </div>
 <div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;    <span class="keywordflow">if</span> (!(avctx.extradata =</div>
 <div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;              (uint8_t *)av_mallocz(28 + AV_INPUT_BUFFER_PADDING_SIZE)))</div>
-<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;      <span class="keywordflow">return</span> AVERROR(ENOMEM);</div>
+<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;      <span class="keywordflow">return</span> AVERROR(AVERROR_MEMORY);</div>
 <div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;    avctx.extradata_size = 28;</div>
 <div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;    <span class="keywordflow">return</span> AV_OK;</div>
 <div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;  }</div>
@@ -992,12 +992,12 @@ $(function() {
 <div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;  <span class="keywordtype">int</span> adpcm_encode_init_impl() {</div>
 <div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;    <span class="keywordflow">if</span> (avctx.sample_rate != 22050) {</div>
 <div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;      av_log(avctx, AV_LOG_ERROR, <span class="stringliteral">&quot;Sample rate must be 22050\n&quot;</span>);</div>
-<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;      <span class="keywordflow">return</span> AVERROR(EINVAL);</div>
+<div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;      <span class="keywordflow">return</span> AVERROR(AVERROR_INVALID);</div>
 <div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;    }</div>
 <div class="line"><a name="l00931"></a><span class="lineno">  931</span>&#160; </div>
 <div class="line"><a name="l00932"></a><span class="lineno">  932</span>&#160;    <span class="keywordflow">if</span> (channels != 1) {</div>
 <div class="line"><a name="l00933"></a><span class="lineno">  933</span>&#160;      av_log(avctx, AV_LOG_ERROR, <span class="stringliteral">&quot;Only mono is supported\n&quot;</span>);</div>
-<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;      <span class="keywordflow">return</span> AVERROR(EINVAL);</div>
+<div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;      <span class="keywordflow">return</span> AVERROR(AVERROR_INVALID);</div>
 <div class="line"><a name="l00935"></a><span class="lineno">  935</span>&#160;    }</div>
 <div class="line"><a name="l00936"></a><span class="lineno">  936</span>&#160; </div>
 <div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;    avctx.<a class="code" href="structadpcm__ffmpeg_1_1AVCodecContext.html#a8fa831a6b091288b3e02b87c738d3175">frame_size</a> = s-&gt;block_size;</div>
@@ -1019,7 +1019,7 @@ $(function() {
 <div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">int</span> n = frame-&gt;<a class="code" href="structadpcm__ffmpeg_1_1AVFrame.html#a7a37e7d97d6db735442e2fd7a0c0085c">nb_samples</a> &gt;&gt; 1;</div>
 <div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;      uint8_t *buf = (uint8_t *)av_malloc(2 * n);</div>
 <div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160; </div>
-<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;      <span class="keywordflow">if</span> (!buf) <span class="keywordflow">return</span> AVERROR(ENOMEM);</div>
+<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;      <span class="keywordflow">if</span> (!buf) <span class="keywordflow">return</span> AVERROR(AVERROR_MEMORY);</div>
 <div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160; </div>
 <div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;      adpcm_compress_trellis(samples, buf, &amp;c-&gt;status[0], 2 * n, channels);</div>
 <div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++)</div>

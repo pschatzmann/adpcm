@@ -104,6 +104,8 @@ enum av_errors {
   AV_OK = 0,
   AVERROR_INVALIDDATA,
   AVERROR_PATCHWELCOME,
+  AVERROR_INVALID,
+  AVERROR_MEMORY,
 };
 
 
@@ -1007,7 +1009,7 @@ int size_mult(size_t a, size_t b, size_t *r) {
   /* Hack inspired from glibc: don't try the division if nelem and elsize
    * are both less than sqrt(SIZE_MAX). */
   if ((a | b) >= ((size_t)1 << (sizeof(size_t) * 4)) && a && t / a != b)
-    return AVERROR(EINVAL);
+    return AVERROR(AVERROR_INVALID);
   *r = t;
   return 0;
 }

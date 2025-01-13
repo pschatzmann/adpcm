@@ -1015,7 +1015,7 @@ $(function() {
 <div class="line"><a name="l01007"></a><span class="lineno"> 1007</span>&#160;  <span class="comment">/* Hack inspired from glibc: don&#39;t try the division if nelem and elsize</span></div>
 <div class="line"><a name="l01008"></a><span class="lineno"> 1008</span>&#160;<span class="comment">   * are both less than sqrt(SIZE_MAX). */</span></div>
 <div class="line"><a name="l01009"></a><span class="lineno"> 1009</span>&#160;  <span class="keywordflow">if</span> ((a | b) &gt;= ((<span class="keywordtype">size_t</span>)1 &lt;&lt; (<span class="keyword">sizeof</span>(<span class="keywordtype">size_t</span>) * 4)) &amp;&amp; a &amp;&amp; t / a != b)</div>
-<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;    <span class="keywordflow">return</span> AVERROR(EINVAL);</div>
+<div class="line"><a name="l01010"></a><span class="lineno"> 1010</span>&#160;    <span class="keywordflow">return</span> AVERROR(AVERROR_INVALID);</div>
 <div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;  *r = t;</div>
 <div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;  <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;}</div>

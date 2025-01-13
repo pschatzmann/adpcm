@@ -105,7 +105,7 @@ class ADPCMEncoder : public ADPCMCodec {
         (s->block_size & (s->block_size - 1))) {
       av_log(avctx, AV_LOG_ERROR, "block size must be power of 2: %d\n",
              s->block_size);
-      return AVERROR(EINVAL);
+      return AVERROR(AVERROR_INVALID);
     }
 
     if (avctx.trellis) {
@@ -113,7 +113,7 @@ class ADPCMEncoder : public ADPCMCodec {
 
       if ((unsigned)avctx.trellis > 16U) {
         av_log(avctx, AV_LOG_ERROR, "invalid trellis size\n");
-        return AVERROR(EINVAL);
+        return AVERROR(AVERROR_INVALID);
       }
 
       if (avctx.codec_id == AV_CODEC_ID_ADPCM_IMA_SSI ||
@@ -134,7 +134,7 @@ class ADPCMEncoder : public ADPCMCodec {
           !FF_ALLOC_TYPED_ARRAY(TrellisNode *, s->node_buf, 2 * frontier) ||
           !FF_ALLOC_TYPED_ARRAY(TrellisNode **, s->nodep_buf, 2 * frontier) ||
           !FF_ALLOC_TYPED_ARRAY(uint8_t *, s->trellis_hash, 65536))
-        return AVERROR(ENOMEM);
+        return AVERROR(AVERROR_MEMORY);
     }
 
     avctx.bits_per_coded_sample = av_get_bits_per_sample();
@@ -515,7 +515,7 @@ class EncoderADPCM_IMA_WAV : public ADPCMEncoderTrellis {
     if (avctx.trellis > 0) {
       uint8_t *buf;
       if (!FF_ALLOC_TYPED_ARRAY(uint8_t *, buf, channels *blocks * 8))
-        return AVERROR(ENOMEM);
+        return AVERROR(AVERROR_MEMORY);
       for (int ch = 0; ch < channels; ch++) {
         adpcm_compress_trellis(&samples_p[ch][1], buf + ch * blocks * 8,
                                &c->status[ch], blocks * 8, 1);
@@ -685,7 +685,7 @@ class EncoderADPCM_MS : public ADPCMEncoderTrellis {
     avctx.block_align = s->block_size;
     if (!(avctx.extradata =
               (uint8_t *)av_malloc(32 + AV_INPUT_BUFFER_PADDING_SIZE)))
-      return AVERROR(ENOMEM);
+      return AVERROR(AVERROR_MEMORY);
     avctx.extradata_size = 32;
     extradata = avctx.extradata;
     bytestream_put_le16(&extradata, avctx.frame_size);
@@ -747,7 +747,7 @@ class EncoderADPCM_MS : public ADPCMEncoderTrellis {
     if (avctx.trellis > 0) {
       const int n = avctx.block_align - 7 * channels;
       uint8_t *buf = (uint8_t *)av_malloc(2 * n);
-      if (!buf) return AVERROR(ENOMEM);
+      if (!buf) return AVERROR(AVERROR_MEMORY);
       if (channels == 1) {
         adpcm_compress_trellis(samples, buf, &c->status[0], n, channels);
         for (int i = 0; i < n; i += 2) *dst++ = (buf[i] << 4) | buf[i + 1];
@@ -782,7 +782,7 @@ class EncoderADPCM_SWF : public ADPCMEncoderTrellis {
       av_log(avctx, AV_LOG_ERROR,
              "Sample rate must be 11025, "
              "22050 or 44100\n");
-      return AVERROR(EINVAL);
+      return AVERROR(AVERROR_INVALID);
     }
     avctx.frame_size = 4096; /* Hardcoded according to the SWF spec. */
     avctx.block_align =
@@ -855,7 +855,7 @@ class EncoderADPCM_YAMAHA : public ADPCMEncoderTrellis {
     int n = frame->nb_samples / 2;
     if (avctx.trellis > 0) {
       uint8_t *buf = (uint8_t *)av_malloc(2 * n * 2);
-      if (!buf) return AVERROR(ENOMEM);
+      if (!buf) return AVERROR(AVERROR_MEMORY);
       n *= 2;
       if (channels == 1) {
         adpcm_compress_trellis(samples, buf, &c->status[0], n, channels);
@@ -890,7 +890,7 @@ class EncoderADPCM_IMA_APM : public ADPCMEncoder {
 
     if (!(avctx.extradata =
               (uint8_t *)av_mallocz(28 + AV_INPUT_BUFFER_PADDING_SIZE)))
-      return AVERROR(ENOMEM);
+      return AVERROR(AVERROR_MEMORY);
     avctx.extradata_size = 28;
     return AV_OK;
   }
@@ -926,12 +926,12 @@ class EncoderADPCM_IMA_AMV : public ADPCMEncoderTrellis {
   int adpcm_encode_init_impl() {
     if (avctx.sample_rate != 22050) {
       av_log(avctx, AV_LOG_ERROR, "Sample rate must be 22050\n");
-      return AVERROR(EINVAL);
+      return AVERROR(AVERROR_INVALID);
     }
 
     if (channels != 1) {
       av_log(avctx, AV_LOG_ERROR, "Only mono is supported\n");
-      return AVERROR(EINVAL);
+      return AVERROR(AVERROR_INVALID);
     }
 
     avctx.frame_size = s->block_size;
@@ -953,7 +953,7 @@ class EncoderADPCM_IMA_AMV : public ADPCMEncoderTrellis {
       const int n = frame->nb_samples >> 1;
       uint8_t *buf = (uint8_t *)av_malloc(2 * n);
 
-      if (!buf) return AVERROR(ENOMEM);
+      if (!buf) return AVERROR(AVERROR_MEMORY);
 
       adpcm_compress_trellis(samples, buf, &c->status[0], 2 * n, channels);
       for (int i = 0; i < n; i++)

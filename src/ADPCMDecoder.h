@@ -202,7 +202,7 @@ class ADPCMDecoder : public ADPCMCodec {
     }
     if (avctx.nb_channels < min_channels || avctx.nb_channels > max_channels) {
       av_log(avctx, AV_LOG_ERROR, "Invalid number of channels\n");
-      return AVERROR(EINVAL);
+      return AVERROR(AVERROR_INVALID);
     }
 
     switch (avctx.codec_id) {
