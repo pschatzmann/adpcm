@@ -61,7 +61,7 @@ class ADPCMDecoder : public ADPCMCodec {
   }
 
   void end() {
-    adpcm_flush();
+    flush();
     // release memory
     for (int ch = 0; ch < frame_extended_data_vectors.size(); ch++)
        frame_extended_data_vectors[ch].resize(0);
@@ -112,6 +112,10 @@ class ADPCMDecoder : public ADPCMCodec {
 
   virtual std::vector<AVSampleFormat> get_sample_format() {
     return sample_formats;
+  }
+
+  void flush() {
+    adpcm_flush();
   }
 
  protected:
