@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <climits>
+#include <limits.h>
 #include "config-adpcm.h"
 
 // define some qulifiers used by the code base

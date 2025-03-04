@@ -79,10 +79,11 @@ class ADPCMDecoder : public ADPCMCodec {
 
     // clear frame data result
     // just reset the data, for the subsequent source determination
-    std::fill(frame_data_vector.begin(), frame_data_vector.end(), 0);
+    //std::fill(frame_data_vector.begin(), frame_data_vector.end(), 0);
+    frame_data_vector.clearContent();
     for (int ch = 0; ch < channels(); ch++) {
-      std::fill(frame_extended_data_vectors[ch].begin(),
-                frame_extended_data_vectors[ch].end(), 0);
+      //std::fill(frame_extended_data_vectors[ch].begin(), frame_extended_data_vectors[ch].end(), 0);
+      frame_extended_data_vectors[ch].clearContent();
     }
 
     int rc = adpcm_decode_frame(&frame, &got_packet_ptr, &packet);
@@ -110,7 +111,7 @@ class ADPCMDecoder : public ADPCMCodec {
     return frame;
   }
 
-  virtual std::vector<AVSampleFormat> get_sample_format() {
+  virtual ADPCMVector<AVSampleFormat> get_sample_format() {
     return sample_formats;
   }
 
@@ -124,8 +125,8 @@ class ADPCMDecoder : public ADPCMCodec {
   AVFrame frame;
   DataSource data_source = Undefined;
   bool is_frame_data = true;
-  std::vector<int16_t> frame_data_vector;
-  std::vector<std::vector<int16_t>> frame_extended_data_vectors;
+  ADPCMVector<int16_t> frame_data_vector;
+  ADPCMVector<ADPCMVector<int16_t>> frame_extended_data_vectors;
   int16_t *extended_data[2] = {NULL};
   uint8_t *data[AV_NUM_DATA_POINTERS] = {NULL};
   // decoding

@@ -75,8 +75,8 @@ class ADPCMEncoder : public ADPCMCodec {
   AVPacket result;
   AVFrame frame;
   int16_t *extended_data[2] = {0};
-  std::vector<uint8_t> av_packet_data;
-  std::vector<std::vector<int16_t>> frame_extended_data_vectors;
+  ADPCMVector<uint8_t> av_packet_data;
+  ADPCMVector<ADPCMVector<int16_t>> frame_extended_data_vectors;
   // encoding data
   int st, pkt_size, ret;
   const int16_t *samples;

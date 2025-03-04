@@ -83,14 +83,14 @@ struct PutByteContext {
   }
 
 DEF(uint64_t, le64, 8, AV_RL64, AV_WL64)
-DEF(unsigned int, le32, 4, AV_RL32, AV_WL32)
-DEF(unsigned int, le24, 3, AV_RL24, AV_WL24)
-DEF(unsigned int, le16, 2, AV_RL16, AV_WL16)
+DEF(uint32_t, le32, 4, AV_RL32, AV_WL32)
+DEF(uint32_t, le24, 3, AV_RL24, AV_WL24)
+DEF(uint32_t, le16, 2, AV_RL16, AV_WL16)
 DEF(uint64_t, be64, 8, AV_RB64, AV_WB64)
-DEF(unsigned int, be32, 4, AV_RB32, AV_WB32)
-DEF(unsigned int, be24, 3, AV_RB24, AV_WB24)
-DEF(unsigned int, be16, 2, AV_RB16, AV_WB16)
-DEF(unsigned int, byte, 1, AV_RB8, AV_WB8)
+DEF(uint32_t, be32, 4, AV_RB32, AV_WB32)
+DEF(uint32_t, be24, 3, AV_RB24, AV_WB24)
+DEF(uint32_t, be16, 2, AV_RB16, AV_WB16)
+DEF(uint32_t, byte, 1, AV_RB8, AV_WB8)
 
 #if AV_HAVE_BIGENDIAN
 #define bytestream2_get_ne16 bytestream2_get_be16

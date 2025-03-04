@@ -1,9 +1,9 @@
 #pragma once
 #include "adpcm-ffmpeg/adpcm.h"
 #include "adpcm-ffmpeg/bytestream.h"
-#include "cstring"
+#include "string.h"
 #include "stddef.h"
-#include "vector"
+#include "ADPCMVector.h"
 
 #define ADAPCM_DEFAULT_BLOCK_SIZE 128
 
@@ -51,7 +51,7 @@ class ADPCMCodec {
  protected:
   AVCodecContext avctx;
   ADPCMEncodeContext enc_ctx;
-  std::vector<AVSampleFormat> sample_formats;
+  ADPCMVector<AVSampleFormat> sample_formats{0};
 
   int av_get_bits_per_sample() {
     switch (avctx.codec_id) {

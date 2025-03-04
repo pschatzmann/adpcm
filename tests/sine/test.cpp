@@ -4,19 +4,17 @@
  */
 
 #include <assert.h>
-
 #include <iostream>
-#include <vector>
-
+#include <string.h>
 #include "ADPCM.h"
+#include "ADPCMVector.h"
 #include "SineGenerator.h"
 
-using namespace std;
 using namespace adpcm_ffmpeg;
 
 AVCodecID code =
     AV_CODEC_ID_ADPCM_MS;  // AV_CODEC_ID_ADPCM_MS; // AV_CODEC_ID_ADPCM_IMA_WAV
-vector<int16_t> sample_vector;
+ADPCMVector<int16_t> sample_vector;
 SineWaveGenerator<int16_t> genLeft{30000.0};
 SineWaveGenerator<int16_t> genRight{30000.0};
 int channels = 2;
@@ -36,10 +34,10 @@ int loadSamples(int frame_size) {
 
 void displayPacket(AVPacket& packet) {
   for (int j = 0; j < packet.size; j++) {
-    if (j % 16 == 0) cout << endl;
+    if (j % 16 == 0) std::cout << std::endl;
     printf("0x%x ", packet.data[j]);
   }
-  cout << endl;
+  std::cout << std::endl;
 }
 
 void displayResult(AVFrame& frame) {
@@ -48,9 +46,9 @@ void displayResult(AVFrame& frame) {
   size_t samples = frame.nb_samples * channels ;
   for (int j = 0; j < samples; j += channels) {
     for (int ch = 0; ch < channels; ch++) {
-      cout << data[j + ch] << " ";
+      std::cout << data[j + ch] << " ";
     }
-    cout << endl;
+    std::cout << std::endl;
   }
 }
 
@@ -63,7 +61,7 @@ int checkFrameSize(ADPCMDecoder &decoder, ADPCMEncoder &encoder) {
 }
 
 void test(AVCodecID id, const char *title) {
-  cout << title << "\n";
+  std::cout << title << "\n";
   ADPCMDecoder& decoder = *ADPCMDecoderFactory::create(id);
   ADPCMEncoder& encoder = *ADPCMEncoderFactory::create(id);
 
@@ -75,11 +73,11 @@ void test(AVCodecID id, const char *title) {
 
   // open codec
   if (!encoder.begin(sample_rate, channels)) {
-    cout << "encoder not supported";
+    std::cout << "encoder not supported";
     return;
   }
   if (!decoder.begin(sample_rate, channels)) {
-    cout << "decoder not supported";
+    std::cout << "decoder not supported";
     return;
   }
 
@@ -121,7 +119,7 @@ int main() {
   // test(AV_CODEC_ID_ADPCM_IMA_AMV,"IMA_AMV"); // only mono at 22050!
   // test(AV_CODEC_ID_ADPCM_IMA_QT,"IMA_QT"); // broken !
 
-  cout << "*** END ***" << "\n";
+  std::cout << "*** END ***" << "\n";
 
 
   return 0;
