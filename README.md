@@ -1,14 +1,14 @@
 # ADPCM Library
 
-ADPCM (Adaptive Differential Pulse Code Modulation) is a __lossy codec__ with a good compression ratio and very low requirements in terms of memory and cpu for both the decoding and encoding. It is also purely based on integer arithemtic. It has lost it's imporance on the desktop, but it is still one of the best codec to be used on microcontrollers.
+ADPCM (Adaptive Differential Pulse Code Modulation) is a __lossy audio codec__ with a good compression ratio and very low requirements in terms of memory and cpu for both the decoding and encoding. It is also purely based on integer arithemtic. It has lost it's imporance on the desktop, but it is still one of the best codecs to be used on microcontrollers.
 
-Unfortunately it is not standardized but there are many alternative implementations which are incompatible between each other.
+Unfortunately it is not standardized and there are many alternative implementations which are incompatible between each other.
 
 I was looking for a __complete__ ADPCM codec library that is suitable to be used on some microcontrollers and supports the most important implementations.
 
 The best implementation that I could find is provided by [FFmpeg](https://ffmpeg.org/) but unfortunately FFmpeg itself is unsuited for microcontrollers.
 
-Therefore I decided to extract the implementation and provide it as a stand alone libarary with a simple API and provide the functionality as header only C++ implementation.
+Therefore I decided to extract the implementation and provide it as a stand alone libarary with a simple API and provide the functionality as header-only C++ implementation.
 
 # Usage
 
