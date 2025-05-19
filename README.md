@@ -1,4 +1,4 @@
-# ADPCM Library
+# ADPCM Audio Codec Library
 
 ADPCM (Adaptive Differential Pulse Code Modulation) is a __lossy audio codec__ with a good compression ratio and very low requirements in terms of memory and cpu for both the decoding and encoding. It is also purely based on integer arithemtic. It has lost it's imporance on the desktop, but it is still one of the best codecs to be used on microcontrollers.
 
