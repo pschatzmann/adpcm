@@ -39,7 +39,7 @@ You can download the library as zip and call include Library -> zip library. Or 
 
 ```
 cd  ~/Documents/Arduino/libraries
-git clone https://github.com/pschatzmann/adpcm
+git clone https://github.com/pschatzmann/codec-adpcm
 ```
 
 I recommend to use git because you can easily update to the latest version just by executing the git pull command in the project folder. If you want to use the library in PlatformIO, you can find a detailed description in the Wiki.
@@ -48,7 +48,7 @@ I recommend to use git because you can easily update to the latest version just 
 
 Just add this library to your platformio.ini. You can also activate or deactivate individual encoders and decoders
 ```
-lib_deps = https://github.com/pschatzmann/adpcm
+lib_deps = https://github.com/pschatzmann/codec-adpcm
 ```
 
 ## CMake
